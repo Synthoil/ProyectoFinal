@@ -1,9 +1,11 @@
+package java.logica;
+
 import java.lang.classfile.attribute.NestHostAttribute;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.random.*;
 
-abstract class Mascota {
+public abstract class Mascota {
     private String nombre;
     private String color;
     private int higiene;

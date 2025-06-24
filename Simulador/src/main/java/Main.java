@@ -1,3 +1,7 @@
+package java;
+
+import java.logica.*;
+
 public class Main {
     public static void main(String[] args) {
     Mascota Bruno = new Perro();

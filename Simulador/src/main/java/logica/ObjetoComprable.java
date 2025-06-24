@@ -1,3 +1,4 @@
+package java.logica;
 
 // Clase para hacer herencia a los diferentes objetos que se van a poder comprar
 public class ObjetoComprable {
