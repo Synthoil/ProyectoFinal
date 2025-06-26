@@ -50,7 +50,7 @@ public abstract class Mascota {
     public void jugar(Juguete juguete){
         if (juguete != null){
             felicidad = 100;
-            higiene--;
+            higiene = Math.max(0, higiene - 20);
             estomago--;
         }
     }
@@ -73,5 +73,37 @@ public abstract class Mascota {
             System.out.println(nombre + "Ha sido tratado");
         }
     }
+    //getters y setters
+
+    public String getNombre(){
+        return nombre;
+    }
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    public int getEstomago(){
+        return estomago;
+    }
+    public int getFelicidad(){
+        return felicidad;
+    }
+    public int getHigiene(){
+        return higiene;
+    }
+    public boolean tieneEnfermedad(){
+        return enfermedad;
+    }
+    public boolean tieneLesion(){
+        return extremidad_rota;
+    }
+    public String estado(){
+        return "Nombre: " + nombre +
+                " | Estómago: " + estomago +
+                " | Higiene: " + higiene +
+                " | Felicidad: " + felicidad +
+                " | Enfermedad: " + enfermedad +
+                " | Lesión: " + extremidad_rota;
+    }
+
 
 }
