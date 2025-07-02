@@ -1,4 +1,4 @@
-package java.logica;
+package TiendaDeMascotas.logica;
 
 public class Gato extends Mascota {
 }

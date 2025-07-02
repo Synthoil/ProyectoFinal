@@ -1,13 +1,13 @@
-package java;
+package TiendaDeMascotas;
 
-import java.logica.*;
+import TiendaDeMascotas.logica.*;
 
 public class Main {
     public static void main(String[] args) {
     Mascota Bruno = new Perro();
 
-    Comida carne = new Comida("Carne", 40);
-    Juguete pelota = new Juguete("Pelota", 50);
+    Comida carne = new ComidaBarata("Carne", 40);
+    Juguete pelota = new JuguetePez("caña con pescado", 50);
     Medicina pastilla= new Medicina("Pastilla", 100);
     Bruno.medicar(pastilla);
     Bruno.alimentar(carne);

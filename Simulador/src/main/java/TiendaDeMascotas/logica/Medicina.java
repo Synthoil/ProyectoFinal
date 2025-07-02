@@ -1,4 +1,4 @@
-package java.logica;
+package TiendaDeMascotas.logica;
 
 public class Medicina extends ObjetoComprable{
     public Medicina(String nombre, int precio) {

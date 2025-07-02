@@ -1,9 +1,7 @@
-package java.logica;
+package TiendaDeMascotas.logica;
 
-import java.lang.classfile.attribute.NestHostAttribute;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.random.*;
 
 public abstract class Mascota {
     private String nombre;
@@ -11,6 +9,7 @@ public abstract class Mascota {
     private int higiene;
     private int felicidad;
     private int estomago;
+    private int escape;
     private Boolean enfermedad;
     private Boolean extremidad_rota;
 
@@ -20,8 +19,10 @@ public abstract class Mascota {
         this.higiene = 50;
         this.estomago = 50;
         this.felicidad = 60;
+        this.escape = 0;
         this.enfermedad = true;
         this.extremidad_rota = false;
+
 
         timer1 = new Timer();
         timer1.scheduleAtFixedRate(new TimerTask() {
@@ -32,7 +33,6 @@ public abstract class Mascota {
                 System.out.println("Felicidad" + felicidad);
                 System.out.println("Higiene" + higiene);
                 estomago = Math.max(0, estomago - 1);
-                felicidad = Math.max(0, felicidad - 1);
                 higiene = Math.max(0, higiene - 1);
                 System.out.println("Comida:" + estomago);
                 System.out.println("Felicidad" + felicidad);
@@ -40,18 +40,20 @@ public abstract class Mascota {
             }
         }, 0, 2000);
     }
-    // LLena el estomago por ahora
+
     public void alimentar(Comida comida){
         if (comida != null){
-            estomago = 100;
+            estomago += comida.nutricion();
+            System.out.println(nombre + " Ha sido alimentado");
         }
     }
     // Jugar llena la felicidad, baja el higiene y el estomago
     public void jugar(Juguete juguete){
         if (juguete != null){
-            felicidad = 100;
-            higiene = Math.max(0, higiene - 20);
+            felicidad += juguete.diversion();
+            higiene = Math.max(0, higiene - juguete.suciedad());
             estomago--;
+            System.out.println(felicidad + "esta mas feliz");
         }
     }
     //Queda totalmente limpio

@@ -1,7 +1,7 @@
-package java.fabricas;
+package TiendaDeMascotas.fabricas;
 
-import java.logica.Mascota;
-import java.logica.Perro;
+import TiendaDeMascotas.logica.Mascota;
+import TiendaDeMascotas.logica.Perro;
 
 public class PerroFactory implements MascotaFactory{
     @Override
