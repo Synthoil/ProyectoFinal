@@ -4,7 +4,7 @@ import TiendaDeMascotas.logica.*;
 
 public class Main {
     public static void main(String[] args) {
-    Mascota Bruno = new Perro();
+    Perro Bruno = new Perro();
 
     Comida carne = new ComidaBarata("Carne", 40);
     Juguete pelota = new JuguetePez("caña con pescado", 50);

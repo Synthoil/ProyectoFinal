@@ -1,7 +1,9 @@
 package TiendaDeMascotas.logica;
 
-import TiendaDeMascotas.logica.Mascota;
+import TiendaDeMascotas.fabricas.Nombres;
 
 public class Perro extends Mascota {
-    public Perro() {}
+    public Perro() {
+        this.setNombre(Nombres.PERRO.getNombreAleatorio());
+    }
 }
