@@ -1,9 +1,14 @@
 package TiendaDeMascotas;
 
+import TiendaDeMascotas.Visual.*;
 import TiendaDeMascotas.logica.*;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+    SwingUtilities.invokeLater(() -> new Ventana());
+
     Perro Bruno = new Perro();
 
     Comida carne = new ComidaBarata("Carne", 40);
