@@ -22,4 +22,8 @@ public class ListaMascotas {
         this.listaMascotas.set(cama, null);
         return temp;
     }
+
+    public int size() {
+        return this.listaMascotas.size();
+    }
 }

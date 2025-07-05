@@ -32,8 +32,9 @@ public abstract class Mascota {
                 System.out.println("Comida:" + estomago);
                 System.out.println("Felicidad" + felicidad);
                 System.out.println("Higiene" + higiene);
-                estomago = Math.max(0, estomago - 1);
+                estomago = Math.max(0, estomago - 1 + Mejoras.getComederoAutomatico());
                 higiene = Math.max(0, higiene - 1);
+                felicidad = Math.max(0, felicidad + Mejoras.getAmbiente());
                 System.out.println("Comida:" + estomago);
                 System.out.println("Felicidad" + felicidad);
                 System.out.println("Higiene" + higiene);
