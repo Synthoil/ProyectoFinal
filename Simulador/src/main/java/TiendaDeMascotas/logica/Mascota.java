@@ -42,7 +42,7 @@ public abstract class Mascota {
     }
 
     public void alimentar(Comida comida){
-        if (comida != null){
+        if (comida != null && comida.cantidad > 0){
             estomago += comida.nutricion();
             System.out.println(nombre + " Ha sido alimentado");
         }
@@ -63,8 +63,8 @@ public abstract class Mascota {
     }
     // Si hay una enfermedad se usa Medicina para curarlo
     public void medicar(Medicina medicina){
-        if(medicina != null && enfermedad){
-            enfermedad = false;
+        if(medicina != null && enfermedad && medicina.cantidad > 0){
+            medicina.usar(this);
             System.out.println(nombre + "Ha sido curado");
         }
     }
@@ -92,6 +92,7 @@ public abstract class Mascota {
     public int getHigiene(){
         return higiene;
     }
+    public void setEnfermedad(Boolean enfermo){this.enfermedad = enfermo;}
     public boolean tieneEnfermedad(){
         return enfermedad;
     }

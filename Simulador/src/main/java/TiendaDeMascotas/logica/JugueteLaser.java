@@ -4,6 +4,17 @@ public class JugueteLaser extends Juguete {
     public JugueteLaser(String nombre, int precio) {
         super(nombre, precio);
     }
+
+    @Override
+    public void Comprar() {
+        cantidad++;
+    }
+
+    @Override
+    public int getCantidad() {
+        return cantidad;
+    }
+
     public int diversion(){
       return 30;
     }

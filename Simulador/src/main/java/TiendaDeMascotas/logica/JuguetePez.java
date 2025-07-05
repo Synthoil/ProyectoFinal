@@ -4,6 +4,17 @@ public class JuguetePez extends Juguete{
     public JuguetePez(String nombre, int precio) {
         super(nombre, precio);
     }
+
+    @Override
+    public void Comprar() {
+        cantidad++;
+    }
+
+    @Override
+    public int getCantidad() {
+        return cantidad;
+    }
+
     public int diversion(){
       return 20;
     }
