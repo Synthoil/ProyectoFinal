@@ -3,6 +3,7 @@ package TiendaDeMascotas.Visual;
 import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Panel de tienda con fondo semitransparente (alpha = 0.8),
@@ -24,76 +25,95 @@ public class PanelTienda implements VistaPanel {
 
         panelTienda.add(btnVolverInicio);
 
-        // COMIDA
-        JLabel lblComida = new JLabel("COMIDA");
-        lblComida.setBounds(50, 20, 200, 30);
+        // ======== COMIDA ========
+        JLabel lblComida = new JLabel("SECCIÓN COMIDA");
+        lblComida.setFont(new Font("Arial", Font.BOLD, 16));
+        lblComida.setBounds(50, 20, 300, 30);
         panelTienda.add(lblComida);
 
-        JButton btnComidaBarata = new JButton("Comprar Barata");
-        btnComidaBarata.setBounds(50, 50, 160, 40);
-        btnComidaBarata.addActionListener(e -> {
+        JSeparator sep1 = new JSeparator();
+        sep1.setBounds(50, 50, 520, 2);
+        panelTienda.add(sep1);
+
+        JButton btnBarata = new JButton("Croquetas ($10)");
+        btnBarata.setBounds(50, 60, 160, 40);
+        btnBarata.addActionListener(e -> {
             inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
             JOptionPane.showMessageDialog(null, "Compraste Comida Barata");
         });
-        panelTienda.add(btnComidaBarata);
 
-        JButton btnComidaPromedio = new JButton("Comprar Promedio");
-        btnComidaPromedio.setBounds(230, 50, 160, 40);
-        btnComidaPromedio.addActionListener(e -> {
+        JButton btnPromedio = new JButton("Alimento Medio ($25)");
+        btnPromedio.setBounds(230, 60, 160, 40);
+        btnPromedio.addActionListener(e -> {
             inventario.agregarObjeto(new ComidaPromedio("Alimento Medio", 25));
             JOptionPane.showMessageDialog(null, "Compraste Comida Promedio");
         });
-        panelTienda.add(btnComidaPromedio);
 
-        JButton btnComidaPremium = new JButton("Comprar Premium");
-        btnComidaPremium.setBounds(410, 50, 160, 40);
-        btnComidaPremium.addActionListener(e -> {
+        JButton btnPremium = new JButton("Alimento Premium ($50)");
+        btnPremium.setBounds(410, 60, 160, 40);
+        btnPremium.addActionListener(e -> {
             inventario.agregarObjeto(new ComidaPremium("Alimento Premium", 50));
             JOptionPane.showMessageDialog(null, "Compraste Comida Premium");
         });
-        panelTienda.add(btnComidaPremium);
 
-        // JUGUETES
-        JLabel lblJuguetes = new JLabel("JUGUETES");
-        lblJuguetes.setBounds(50, 110, 200, 30);
+        panelTienda.add(btnBarata);
+        panelTienda.add(btnPromedio);
+        panelTienda.add(btnPremium);
+
+        // ======== JUGUETES ========
+        JLabel lblJuguetes = new JLabel("SECCIÓN JUGUETES");
+        lblJuguetes.setFont(new Font("Arial", Font.BOLD, 16));
+        lblJuguetes.setBounds(50, 120, 300, 30);
         panelTienda.add(lblJuguetes);
 
-        JButton btnPelota = new JButton("Comprar Pelota");
-        btnPelota.setBounds(50, 140, 160, 40);
+        JSeparator sep2 = new JSeparator();
+        sep2.setBounds(50, 150, 520, 2);
+        panelTienda.add(sep2);
+
+        JButton btnPelota = new JButton("Pelota ($15)");
+        btnPelota.setBounds(50, 160, 160, 40);
         btnPelota.addActionListener(e -> {
             inventario.agregarObjeto(new JuguetePelota("Pelota", 15));
             JOptionPane.showMessageDialog(null, "Compraste una Pelota");
         });
-        panelTienda.add(btnPelota);
 
-        JButton btnLaser = new JButton("Comprar Láser");
-        btnLaser.setBounds(230, 140, 160, 40);
+        JButton btnLaser = new JButton("Láser ($20)");
+        btnLaser.setBounds(230, 160, 160, 40);
         btnLaser.addActionListener(e -> {
             inventario.agregarObjeto(new JugueteLaser("Láser", 20));
             JOptionPane.showMessageDialog(null, "Compraste un Láser");
         });
-        panelTienda.add(btnLaser);
 
-        JButton btnPez = new JButton("Comprar Pez");
-        btnPez.setBounds(410, 140, 160, 40);
+        JButton btnPez = new JButton("Pez de Goma ($10)");
+        btnPez.setBounds(410, 160, 160, 40);
         btnPez.addActionListener(e -> {
             inventario.agregarObjeto(new JuguetePez("Pez de Goma", 10));
             JOptionPane.showMessageDialog(null, "Compraste un Pez de Goma");
         });
+
+        panelTienda.add(btnPelota);
+        panelTienda.add(btnLaser);
         panelTienda.add(btnPez);
 
-        JLabel lblMedicina = new JLabel("MEDICINA");
-        lblMedicina.setBounds(50, 200, 200, 30);
+        // ======== MEDICINA ========
+        JLabel lblMedicina = new JLabel("SECCIÓN MEDICINA");
+        lblMedicina.setFont(new Font("Arial", Font.BOLD, 16));
+        lblMedicina.setBounds(50, 220, 300, 30);
         panelTienda.add(lblMedicina);
 
-        // MEDICINA
-        JButton btnMedicina = new JButton("Comprar Medicina");
-        btnMedicina.setBounds(50, 230, 200, 40);
+        JSeparator sep3 = new JSeparator();
+        sep3.setBounds(50, 250, 520, 2);
+        panelTienda.add(sep3);
+
+        JButton btnMedicina = new JButton("Antibiótico ($30)");
+        btnMedicina.setBounds(50, 260, 200, 40);
         btnMedicina.addActionListener(e -> {
             inventario.agregarObjeto(new Medicina("Antibiótico", 30));
             JOptionPane.showMessageDialog(null, "Compraste Medicina");
         });
+
         panelTienda.add(btnMedicina);
+
 
     }
 

@@ -14,7 +14,7 @@ public class PanelInicio implements VistaPanel {
     public PanelInicio(Navegador navegador, ImageIcon iconoFondo) {
         panelInicio = new ImagePanel(iconoFondo, 1f);
         panelInicio.setBounds(0, 0, 700, 700);
-        
+
         btnIrAdministrar = new JButton("Ir a Administrar");
         btnIrAdministrar.setBounds(12, 160, 150, 50);
         btnIrAdministrar.addActionListener(e ->
