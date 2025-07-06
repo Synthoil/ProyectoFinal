@@ -2,6 +2,7 @@ package TiendaDeMascotas.Visual;
 
 import TiendaDeMascotas.logica.ListaMascotas;
 import TiendaDeMascotas.logica.Mascota;
+import TiendaDeMascotas.logica.Perro;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class PanelInicio implements VistaPanel {
         this.listaMascotas = listaMascotas;
 
         panelInicio = new ImagePanel(iconoFondo, 1f);
-        panelInicio.setBounds(0, 0, 700, 700);
+        panelInicio.setBounds(0, 0, 1000, 700);
         panelInicio.setLayout(null);
 
         //botones
@@ -46,6 +47,14 @@ public class PanelInicio implements VistaPanel {
 
             if (mascota != null) {
                 btnMascota = new JButton(mascota.getNombre());
+
+                if (mascota instanceof Perro) {
+                    ImageIcon icono = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/Perro.png"));
+                    Image img = icono.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                    btnMascota.setIcon(new ImageIcon(img));
+                    btnMascota.setHorizontalTextPosition(SwingConstants.CENTER);
+                    btnMascota.setVerticalTextPosition(SwingConstants.BOTTOM);
+                }
             } else {
                 btnMascota = new JButton("Vacía");
                 btnMascota.setEnabled(false);
