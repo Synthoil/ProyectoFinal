@@ -1,8 +1,6 @@
 package TiendaDeMascotas.Visual;
 
-import TiendaDeMascotas.logica.ListaMascotas;
-import TiendaDeMascotas.logica.Mascota;
-import TiendaDeMascotas.logica.Perro;
+import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,12 +60,30 @@ public class PanelInicio implements VistaPanel {
 
             btnMascota.setBounds(200 + (i * 110), 350, 100, 100);
             Mascota finalMascota = mascota;
-            if (mascota != null) {
-                int camaIndex = i;
-                btnMascota.addActionListener(e -> {
-                    mostrarVentanaMascota(finalMascota, camaIndex);
-                });
-            }
+            btnMascota.addActionListener(e -> {
+                String[] opciones = {"Alimentar", "Jugar", "Limpiar", "Medicar", "Tratar", "Cerrar"};
+                boolean seguir = true;
+
+                while (seguir) {
+                    int eleccion = JOptionPane.showOptionDialog(null,
+                            finalMascota.estado(),
+                            "Interacción con " + finalMascota.getNombre(),
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            opciones,
+                            opciones[0]);
+
+                    switch (eleccion) {
+                        case 0 -> finalMascota.alimentar(new ComidaBarata("Croquetas", 0));
+                        case 1 -> finalMascota.jugar(new JuguetePelota("Pelota", 0));
+                        case 2 -> finalMascota.limpiar();
+                        case 3 -> finalMascota.medicar(new Medicina("Antibiótico", 0));
+                        case 4 -> finalMascota.tratar();
+                        default -> seguir = false;
+                    }
+                }
+            });
 
             panelInicio.add(btnMascota);
         }

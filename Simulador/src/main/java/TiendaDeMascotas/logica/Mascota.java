@@ -44,14 +44,14 @@ public abstract class Mascota {
 
     public void alimentar(Comida comida){
         if (comida != null && comida.cantidad > 0){
-            estomago += comida.nutricion();
+            estomago = Math.min(100, estomago + comida.nutricion());
             System.out.println(nombre + " Ha sido alimentado");
         }
     }
     // Jugar llena la felicidad, baja el higiene y el estomago
     public void jugar(Juguete juguete){
         if (juguete != null){
-            felicidad += juguete.diversion();
+            felicidad = Math.min(100, felicidad + juguete.diversion());
             higiene = Math.max(0, higiene - juguete.suciedad());
             estomago--;
             System.out.println(felicidad + "esta mas feliz");

@@ -10,20 +10,20 @@ import java.util.List;
 public class PanelInventario implements VistaPanel {
     private final ImagePanel panelInventario;
     private final JButton btnVolverInicio;
-    private Inventario inventario;
+    private final Inventario inventario;
 
     public PanelInventario(Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
         this.inventario = inventario;
 
         panelInventario = new ImagePanel(iconoFondo, 1f);
-        panelInventario.setBounds(0, 0, 700, 700);
+        panelInventario.setBounds(0, 0, 1000, 700);
+        panelInventario.setLayout(null);
 
         btnVolverInicio = new JButton("X");
-        btnVolverInicio.setBounds(620, 10, 50, 50);
+        btnVolverInicio.setBounds(910, 10, 50, 50);
         btnVolverInicio.addActionListener(e ->
                 navegador.navegarA(VistaActual.INICIO)
         );
-
         panelInventario.add(btnVolverInicio);
 
         List<ObjetoComprable> objetos = inventario.getObjetos();
