@@ -7,31 +7,28 @@ import javax.swing.*;
  */
 public class PanelInicio implements VistaPanel {
     private final ImagePanel panelInicio;
-    private final JButton btnIrAdministrar;
-    private final JButton btnIrTienda;
+    private final JButton btnIrJuego;
+    private final JButton btnIrOpciones;
 
     public PanelInicio(Navegador navegador, ImageIcon iconoFondo) {
         panelInicio = new ImagePanel(iconoFondo, 1f);
-        panelInicio.setBounds(0, 0, 700, 700);
+        panelInicio.setBounds(0, 0, 1500, 800);
 
         //botones para ir a otro panel
-        btnIrAdministrar = new JButton("Ir a Administrar");
-        btnIrAdministrar.setBounds(12, 160, 150, 50);
-        btnIrAdministrar.addActionListener(e ->
-                navegador.navegarA(VistaActual.ADMINISTRAR)
+        btnIrJuego = new JButton("Comenzar juego");
+        btnIrJuego.setBounds(600, 300, 300, 100);
+        btnIrJuego.addActionListener(e ->
+                navegador.navegarA(VistaActual.JUEGO)
         );
 
-        btnIrTienda = new JButton("Ir a Tienda");
-        btnIrTienda.setBounds(12, 240, 150, 50);
-        btnIrTienda.addActionListener(e ->
-                navegador.navegarA(VistaActual.TIENDA)
+        btnIrOpciones = new JButton("Ir a Opciones");
+        btnIrOpciones.setBounds(600, 500, 300, 100);
+        btnIrOpciones.addActionListener(e ->
+                navegador.navegarA(VistaActual.OPCIONES)
         );
 
-
-        //
-
-        panelInicio.add(btnIrAdministrar);
-        panelInicio.add(btnIrTienda);
+        panelInicio.add(btnIrJuego);
+        panelInicio.add(btnIrOpciones);
     }
 
     @Override

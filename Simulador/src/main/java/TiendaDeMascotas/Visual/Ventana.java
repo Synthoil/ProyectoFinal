@@ -14,8 +14,8 @@ public class Ventana extends JFrame implements Navegador {
 
     // Íconos de fondo
     private final ImageIcon iconoFondoInicio;
-    private final ImageIcon iconoFondoAdministrar;
-    private final ImageIcon iconoFondoTienda;
+    private final ImageIcon iconoFondoJuego;
+    private final ImageIcon iconoFondoOpciones;
 
     // Estado actual
     private VistaActual vistaActual;
@@ -25,47 +25,47 @@ public class Ventana extends JFrame implements Navegador {
 
         // Carga de fondos
 
-        iconoFondoInicio = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaJuego.png"));
-        iconoFondoAdministrar = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaAdministrar.png"));
-        iconoFondoTienda = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaTienda.png"));
+        iconoFondoInicio = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaInicio.png"));
+        iconoFondoJuego = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaJuego.png"));
+        iconoFondoOpciones = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaOpciones.png"));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(700, 700);
+        setSize(1500, 800);
         setLocationRelativeTo(null);
         setResizable(false);
 
         panelCapas = new JLayeredPane();
-        panelCapas.setPreferredSize(new Dimension(700, 700));
+        panelCapas.setPreferredSize(new Dimension(1500, 800));
         panelCapas.setLayout(null);
 
         // Instanciar vistas
         mapaVistas.put(VistaActual.INICIO,
                 new PanelInicio(this, iconoFondoInicio)
         );
-        mapaVistas.put(VistaActual.ADMINISTRAR,
-                new PanelAdministrar(this, iconoFondoAdministrar)
+        mapaVistas.put(VistaActual.JUEGO,
+                new PanelJuego(this, iconoFondoJuego)
         );
-        mapaVistas.put(VistaActual.TIENDA,
-                new PanelTienda(this, iconoFondoTienda)
+        mapaVistas.put(VistaActual.OPCIONES,
+                new PanelOpciones(this, iconoFondoOpciones)
         );
 
-        // Agregar en capas: INICIO abajo (0), ADMINISTRAR arriba (1)
+        // Agregar en capas: INICIO abajo (0), JUEGO arriba (1)
         panelCapas.add(
                 mapaVistas.get(VistaActual.INICIO).obtenerPanel(),
                 Integer.valueOf(0)
         );
         panelCapas.add(
-                mapaVistas.get(VistaActual.ADMINISTRAR).obtenerPanel(),
+                mapaVistas.get(VistaActual.JUEGO).obtenerPanel(),
                 Integer.valueOf(1)
         );
         panelCapas.add(
-                mapaVistas.get(VistaActual.TIENDA).obtenerPanel(),
+                mapaVistas.get(VistaActual.OPCIONES).obtenerPanel(),
                 Integer.valueOf(1)
         );
 
         // Ocultar paneles al incio
-        mapaVistas.get(VistaActual.ADMINISTRAR).obtenerPanel().setVisible(false);
-        mapaVistas.get(VistaActual.TIENDA).obtenerPanel().setVisible(false);
+        mapaVistas.get(VistaActual.JUEGO).obtenerPanel().setVisible(false);
+        mapaVistas.get(VistaActual.OPCIONES).obtenerPanel().setVisible(false);
 
         setContentPane(panelCapas);
         setVisible(true);

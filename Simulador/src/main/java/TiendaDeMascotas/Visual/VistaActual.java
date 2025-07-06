@@ -6,6 +6,10 @@ package TiendaDeMascotas.Visual;
 public enum VistaActual {
     INICIO,
     INVENTARIO,
-    TIENDA,
-    ADMINISTRAR
+    OPCIONES,
+    JUEGO,
+    MASCOTA,
+    COMIDA,
+    JUGAR,
+    MEDICINA
 }
