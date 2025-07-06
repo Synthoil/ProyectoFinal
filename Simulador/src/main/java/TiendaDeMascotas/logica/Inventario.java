@@ -25,4 +25,14 @@ public class Inventario {
     public List<ObjetoComprable> getObjetos() {
         return objetos;
     }
+
+    public <T extends ObjetoComprable> T getObjeto(Class<T> tipo) {
+        for (ObjetoComprable obj : objetos) {
+            if (tipo.isInstance(obj)) {
+                return tipo.cast(obj);
+            }
+        }
+        return null;
+    }
+
 }

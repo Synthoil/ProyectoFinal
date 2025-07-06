@@ -21,6 +21,6 @@ public class JuguetePelota extends Juguete{
 
     @Override
     public int suciedad() {
-        return 80;
+        return 30;
     }
 }

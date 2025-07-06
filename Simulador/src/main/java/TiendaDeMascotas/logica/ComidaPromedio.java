@@ -19,6 +19,6 @@ public class ComidaPromedio extends Comida {
     @Override
     public int nutricion() {
         cantidad--;
-        return 60;
+        return 30;
     }
 }

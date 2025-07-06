@@ -13,9 +13,11 @@ public class PanelInicio implements VistaPanel {
     private final JButton btnIrTienda;
     private final JButton btnVerInventario;
     private final ListaMascotas listaMascotas;
+    private final Inventario inventario;
 
-    public PanelInicio(Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas) {
+    public PanelInicio(Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
         this.listaMascotas = listaMascotas;
+        this.inventario = inventario;
 
         panelInicio = new ImagePanel(iconoFondo, 1f);
         panelInicio.setBounds(0, 0, 1000, 700);
@@ -75,10 +77,36 @@ public class PanelInicio implements VistaPanel {
                             opciones[0]);
 
                     switch (eleccion) {
-                        case 0 -> finalMascota.alimentar(new ComidaBarata("Croquetas", 0));
-                        case 1 -> finalMascota.jugar(new JuguetePelota("Pelota", 0));
+                        case 0 -> {
+                            Comida comida = inventario.getObjeto(Comida.class);
+                            if (comida != null && comida.getCantidad() > 0) {
+                                finalMascota.alimentar(comida);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No tienes comida");
+                            }
+                        }
+                        case 1 -> {
+                            Juguete juguete = inventario.getObjeto(Juguete.class);
+                            if (juguete != null && juguete.getCantidad() > 0) {
+                                finalMascota.jugar(juguete);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No tienes juguetes");
+                            }
+                        }
                         case 2 -> finalMascota.limpiar();
-                        case 3 -> finalMascota.medicar(new Medicina("Antibiótico", 0));
+                        case 3 -> {
+                            Medicina medicina = inventario.getObjeto(Medicina.class);
+                            if (medicina != null && medicina.getCantidad() > 0) {
+                                if (finalMascota.tieneEnfermedad()) {
+                                    finalMascota.medicar(medicina);
+                                    JOptionPane.showMessageDialog(null, finalMascota.getNombre() + " ha sido medicado.");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, finalMascota.getNombre() + " no está enfermo.");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No tienes medicina disponible.");
+                            }
+                        }
                         case 4 -> finalMascota.tratar();
                         default -> seguir = false;
                     }
