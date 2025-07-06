@@ -11,7 +11,6 @@ public class PanelAdministrar implements VistaPanel {
     private final JButton btnVolverInicio;
 
     public PanelAdministrar(Navegador navegador, ImageIcon iconoFondo) {
-        // alpha < 1 para ver el fondo de panelInicio detrás
         panelAdministrar = new ImagePanel(iconoFondo, 1f);
         panelAdministrar.setBounds(0, 0, 700, 700);
 

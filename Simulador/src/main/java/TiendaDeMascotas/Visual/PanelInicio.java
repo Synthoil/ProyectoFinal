@@ -9,6 +9,7 @@ public class PanelInicio implements VistaPanel {
     private final ImagePanel panelInicio;
     private final JButton btnIrAdministrar;
     private final JButton btnIrTienda;
+    private final JButton btnVerInventario;
 
     public PanelInicio(Navegador navegador, ImageIcon iconoFondo) {
         panelInicio = new ImagePanel(iconoFondo, 1f);
@@ -26,6 +27,12 @@ public class PanelInicio implements VistaPanel {
         btnIrTienda.addActionListener(e ->
                 navegador.navegarA(VistaActual.TIENDA)
         );
+        btnVerInventario = new JButton("Ver Inventario");
+        btnVerInventario.setBounds(12, 320, 150, 50);
+        btnVerInventario.addActionListener(e ->
+                navegador.navegarA(VistaActual.INVENTARIO)
+        );
+        panelInicio.add(btnVerInventario);
 
 
         //

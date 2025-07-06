@@ -1,5 +1,7 @@
 package TiendaDeMascotas.Visual;
 
+import TiendaDeMascotas.logica.Inventario;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.EnumMap;
@@ -11,19 +13,17 @@ import java.util.Map;
 public class Ventana extends JFrame implements Navegador {
     private final JLayeredPane panelCapas;
     private final Map<VistaActual, VistaPanel> mapaVistas = new EnumMap<>(VistaActual.class);
+    private final Inventario inventario = new Inventario();
 
-    // Íconos de fondo
     private final ImageIcon iconoFondoInicio;
     private final ImageIcon iconoFondoAdministrar;
     private final ImageIcon iconoFondoTienda;
 
-    // Estado actual
     private VistaActual vistaActual;
 
     public Ventana() {
         super("Tienda de Mascotas");
 
-        // Carga de fondos
 
         iconoFondoInicio = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaJuego.png"));
         iconoFondoAdministrar = new ImageIcon(getClass().getResource("/Imagenes/fondo/fondoVentanaAdministrar.png"));
@@ -38,7 +38,6 @@ public class Ventana extends JFrame implements Navegador {
         panelCapas.setPreferredSize(new Dimension(700, 700));
         panelCapas.setLayout(null);
 
-        // Instanciar vistas
         mapaVistas.put(VistaActual.INICIO,
                 new PanelInicio(this, iconoFondoInicio)
         );
@@ -48,8 +47,10 @@ public class Ventana extends JFrame implements Navegador {
         mapaVistas.put(VistaActual.TIENDA,
                 new PanelTienda(this, iconoFondoTienda)
         );
+        mapaVistas.put(VistaActual.INVENTARIO,
+                new PanelInventario(this, iconoFondoInicio, inventario)
+        );
 
-        // Agregar en capas: INICIO abajo (0), ADMINISTRAR arriba (1)
         panelCapas.add(
                 mapaVistas.get(VistaActual.INICIO).obtenerPanel(),
                 Integer.valueOf(0)
@@ -62,8 +63,12 @@ public class Ventana extends JFrame implements Navegador {
                 mapaVistas.get(VistaActual.TIENDA).obtenerPanel(),
                 Integer.valueOf(1)
         );
+        panelCapas.add(
+                mapaVistas.get(VistaActual.INVENTARIO).obtenerPanel(),
+                Integer.valueOf(1)
+        );
+        mapaVistas.get(VistaActual.INVENTARIO).obtenerPanel().setVisible(false);
 
-        // Ocultar paneles al incio
         mapaVistas.get(VistaActual.ADMINISTRAR).obtenerPanel().setVisible(false);
         mapaVistas.get(VistaActual.TIENDA).obtenerPanel().setVisible(false);
 
@@ -74,13 +79,11 @@ public class Ventana extends JFrame implements Navegador {
 
     @Override
     public void navegarA(VistaActual nuevaVista) {
-        // Ocultar la vista anterior
         if (vistaActual != null) {
             mapaVistas.get(vistaActual).obtenerPanel().setVisible(false);
             mapaVistas.get(vistaActual).alSalir();
         }
 
-        // Mostrar la nueva vista
         JPanel panelNuevo = mapaVistas.get(nuevaVista).obtenerPanel();
         panelNuevo.setVisible(true);
         mapaVistas.get(nuevaVista).alEntrar();

@@ -11,7 +11,6 @@ public class PanelTienda implements VistaPanel {
     private final JButton btnVolverInicio;
 
     public PanelTienda(Navegador navegador, ImageIcon iconoFondo) {
-        // alpha < 1 para ver el fondo de panelInicio detrás
         panelTienda= new ImagePanel(iconoFondo, 1f);
         panelTienda.setBounds(0, 0, 700, 700);
 
