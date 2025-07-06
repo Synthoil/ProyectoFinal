@@ -13,4 +13,8 @@ abstract public class ObjetoComprable {
 
     public abstract void Comprar();
     public abstract int getCantidad();
+
+    public String getNombre() {
+        return nombre;
+    }
 }

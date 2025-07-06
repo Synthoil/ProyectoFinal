@@ -10,8 +10,16 @@ public class Inventario {
         this.objetos = new ArrayList<>();
     }
 
-    public void agregarObjeto(ObjetoComprable objeto) {
-        objetos.add(objeto);
+    public void agregarObjeto(ObjetoComprable nuevo) {
+        for(ObjetoComprable obj : objetos){
+            if(obj.getClass().equals(nuevo.getClass()) && obj.getNombre().equalsIgnoreCase(nuevo.getNombre())) {
+                obj.Comprar();
+                return;
+            }
+        }
+
+        nuevo.Comprar();
+        objetos.add(nuevo);
     }
 
     public List<ObjetoComprable> getObjetos() {

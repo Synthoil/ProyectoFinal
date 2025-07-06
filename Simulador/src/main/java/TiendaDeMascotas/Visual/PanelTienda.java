@@ -1,5 +1,8 @@
 package TiendaDeMascotas.Visual;
 
+import TiendaDeMascotas.logica.ComidaBarata;
+import TiendaDeMascotas.logica.Inventario;
+
 import javax.swing.*;
 
 /**
@@ -10,7 +13,7 @@ public class PanelTienda implements VistaPanel {
     private final ImagePanel panelTienda;
     private final JButton btnVolverInicio;
 
-    public PanelTienda(Navegador navegador, ImageIcon iconoFondo) {
+    public PanelTienda(Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
         panelTienda= new ImagePanel(iconoFondo, 1f);
         panelTienda.setBounds(0, 0, 700, 700);
 
@@ -21,7 +24,18 @@ public class PanelTienda implements VistaPanel {
         );
 
         panelTienda.add(btnVolverInicio);
+
+        JButton btnComprarCroquetas = new JButton("Comprar Croquetas");
+        btnComprarCroquetas.setBounds(50, 100, 200, 40);
+        btnComprarCroquetas.addActionListener(e -> {
+            ComidaBarata comida = new ComidaBarata("Croquetas", 10);
+            inventario.agregarObjeto(comida);
+            JOptionPane.showMessageDialog(null, "Compraste Croquetas!");
+        });
+
+        panelTienda.add(btnComprarCroquetas);
     }
+
 
     @Override
     public JPanel obtenerPanel() {

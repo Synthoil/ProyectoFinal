@@ -21,7 +21,7 @@ public class Ventana extends JFrame implements Navegador {
 
     private VistaActual vistaActual;
 
-    public Ventana() {
+    public Ventana(Inventario inventario) {
         super("Tienda de Mascotas");
 
 
@@ -45,7 +45,7 @@ public class Ventana extends JFrame implements Navegador {
                 new PanelAdministrar(this, iconoFondoAdministrar)
         );
         mapaVistas.put(VistaActual.TIENDA,
-                new PanelTienda(this, iconoFondoTienda)
+                new PanelTienda(this, iconoFondoTienda, inventario)
         );
         mapaVistas.put(VistaActual.INVENTARIO,
                 new PanelInventario(this, iconoFondoInicio, inventario)

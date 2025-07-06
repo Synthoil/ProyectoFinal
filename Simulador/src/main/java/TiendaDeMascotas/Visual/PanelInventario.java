@@ -10,8 +10,11 @@ import java.util.List;
 public class PanelInventario implements VistaPanel {
     private final ImagePanel panelInventario;
     private final JButton btnVolverInicio;
+    private Inventario inventario;
 
     public PanelInventario(Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
+        this.inventario = inventario;
+
         panelInventario = new ImagePanel(iconoFondo, 1f);
         panelInventario.setBounds(0, 0, 700, 700);
 
@@ -44,7 +47,27 @@ public class PanelInventario implements VistaPanel {
     }
 
     @Override
-    public void alEntrar() {}
+    public void alEntrar() {
+        panelInventario.removeAll();
+
+        panelInventario.add(btnVolverInicio);
+
+        JTextArea area = new JTextArea();
+        area.setEditable(false);
+        StringBuilder contenido = new StringBuilder("Inventario:\n");
+        for (ObjetoComprable obj : inventario.getObjetos()) {
+            contenido.append(obj.getNombre())
+                    .append(" - ")
+                    .append(obj.getCantidad())
+                    .append(" unidades\n");
+        }
+        area.setText(contenido.toString());
+        area.setBounds(50, 80, 600, 500);
+        panelInventario.add(area);
+
+        panelInventario.revalidate();
+        panelInventario.repaint();
+    }
 
     @Override
     public void alSalir() {}
