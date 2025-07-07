@@ -102,7 +102,56 @@ public class PanelInicio implements VistaPanel {
                 }
 
                 int finalI = i;
-                btnMascota.addActionListener(e -> mostrarVentanaMascota(mascota, finalI));
+                btnMascota.addActionListener(e -> {
+                    String[] opciones = {"Alimentar", "Jugar", "Limpiar", "Medicar", "Tratar", "Cerrar"};
+                    boolean seguir = true;
+
+                    while (seguir) {
+                        int eleccion = JOptionPane.showOptionDialog(null,
+                                mascota.estado(),
+                                "Interacción con " + mascota.getNombre(),
+                                JOptionPane.DEFAULT_OPTION,
+                                JOptionPane.PLAIN_MESSAGE,
+                                null,
+                                opciones,
+                                opciones[0]);
+
+                        switch (eleccion) {
+                            case 0 -> {
+                                Comida comida = inventario.getObjeto(Comida.class);
+                                if (comida != null && comida.getCantidad() > 0) {
+                                    mascota.alimentar(comida);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No tienes comida");
+                                }
+                            }
+                            case 1 -> {
+                                Juguete juguete = inventario.getObjeto(Juguete.class);
+                                if (juguete != null && juguete.getCantidad() > 0) {
+                                    mascota.jugar(juguete);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No tienes juguetes");
+                                }
+                            }
+                            case 2 -> mascota.limpiar();
+                            case 3 -> {
+                                Medicina medicina = inventario.getObjeto(Medicina.class);
+                                if (medicina != null && medicina.getCantidad() > 0) {
+                                    if (mascota.tieneEnfermedad()) {
+                                        mascota.medicar(medicina);
+                                        JOptionPane.showMessageDialog(null, mascota.getNombre() + " ha sido medicado.");
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, mascota.getNombre() + " no está enfermo.");
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No tienes medicina disponible.");
+                                }
+                            }
+                            case 4 -> mascota.tratar();
+                            default -> seguir = false;
+                        }
+                    }
+                });
             } else {
                 btnMascota = new JButton("Vacía");
                 btnMascota.setEnabled(false);
