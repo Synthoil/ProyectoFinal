@@ -10,6 +10,14 @@ public class Mejoras  {
     public Mejoras() {
     }
 
+    public static void inicializarMejorasPorDefecto() {
+        cantidadCamas = 3;
+        mejorAmbiente = 0;
+        comederoAutomatico = 0;
+        desbloquearJaula = false;
+        desbloquearPecera = false;
+    }
+
     public static void comprarCamas(){
         cantidadCamas++;
     }
@@ -31,11 +39,9 @@ public class Mejoras  {
     public static int getAmbiente(){
         return mejorAmbiente;
     }
-
     public static int getComederoAutomatico(){
         return comederoAutomatico;
     }
-
     public static int getCantidadCamas() {
         return cantidadCamas;
     }

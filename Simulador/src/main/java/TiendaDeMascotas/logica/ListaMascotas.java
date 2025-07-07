@@ -5,16 +5,28 @@ import java.util.List;
 
 public class ListaMascotas {
     List<Mascota> listaMascotas;
+
     public ListaMascotas(){
         this.listaMascotas = new ArrayList<Mascota>();
+        for (int i = 0; i < Mejoras.getCantidadCamas(); i++) {
+            listaMascotas.add(null);
+        }
     }
-
-    public void agregarMascota(Mascota mascota){
-        this.listaMascotas.add(mascota);
+    public void agregarCama(){
+        listaMascotas.add(null);
     }
 
     public Mascota mascotaEnCama(int cama){
         return this.listaMascotas.get(cama);
+    }
+    public boolean agregarMascotaEnCamaLibre(Mascota mascota) {
+        for (int i = 0; i < listaMascotas.size(); i++) {
+            if (listaMascotas.get(i) == null) {
+                listaMascotas.set(i, mascota);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Mascota sacarMascotaEnCama(int cama){

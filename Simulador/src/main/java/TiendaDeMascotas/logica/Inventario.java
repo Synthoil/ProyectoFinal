@@ -9,7 +9,7 @@ public class Inventario {
 
     public Inventario() {
         this.objetos = new ArrayList<>();
-        this.dinero = 100;
+        this.dinero = 1000;
     }
     public int getDinero(){
         return dinero;

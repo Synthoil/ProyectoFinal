@@ -1,5 +1,8 @@
 package TiendaDeMascotas.Visual;
 
+import TiendaDeMascotas.fabricas.GatoFactory;
+import TiendaDeMascotas.fabricas.MascotaFactory;
+import TiendaDeMascotas.fabricas.PerroFactory;
 import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
@@ -12,16 +15,44 @@ public class PanelInicio implements VistaPanel {
     private final ImagePanel panelInicio;
     private final JButton btnIrTienda;
     private final JButton btnVerInventario;
+    private final JButton btnAdoptar;
     private final ListaMascotas listaMascotas;
     private final Inventario inventario;
+    private final Ventana ventana;
 
-    public PanelInicio(Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
+    public PanelInicio(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
         this.listaMascotas = listaMascotas;
         this.inventario = inventario;
+        this.ventana = ventana;
 
         panelInicio = new ImagePanel(iconoFondo, 1f);
         panelInicio.setBounds(0, 0, 1000, 700);
         panelInicio.setLayout(null);
+
+        btnAdoptar = new JButton("Adoptar ($50)");
+        btnAdoptar.setBounds(400, 20, 200, 40);
+        btnAdoptar.addActionListener(e -> {
+            int precioAdopcion = 50;
+            if (inventario.getDinero() < precioAdopcion) {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero para adoptar.");
+                return;
+            }
+            MascotaFactory factory = Math.random() < 0.5 ? new PerroFactory() : new GatoFactory();
+            Mascota nuevaMascota = factory.crearMascota();
+
+            if (!listaMascotas.agregarMascotaEnCamaLibre(nuevaMascota)) {
+                JOptionPane.showMessageDialog(null, "No hay camas disponibles.");
+                return;
+            }
+
+            inventario.gastarDinero(precioAdopcion);
+            ventana.actualizarDinero(inventario.getDinero());
+            JOptionPane.showMessageDialog(null,
+                    "Has adoptado un(a) " + nuevaMascota.getClass().getSimpleName()
+                            + " llamado(a) " + nuevaMascota.getNombre());
+            generarBotonesMascotas();
+        });
+        panelInicio.add(btnAdoptar);
 
         //botones
         btnIrTienda = new JButton("Ir a Tienda");
@@ -38,12 +69,26 @@ public class PanelInicio implements VistaPanel {
         );
         panelInicio.add(btnVerInventario);
 
-        for (int i = 0; i < 4; i++) {
-            JButton btnMascota;
-            Mascota mascota = null;
-            if (i < listaMascotas.size()) {
-                mascota = listaMascotas.mascotaEnCama(i);
+        generarBotonesMascotas();
+    }
+
+    private void generarBotonesMascotas() {
+        // Quitar botones antiguos
+        panelInicio.getComponents();
+        Component[] componentes = panelInicio.getComponents();
+        for (Component comp : componentes) {
+            if (comp instanceof JButton) {
+                JButton btn = (JButton) comp;
+                String texto = btn.getText();
+                if (!texto.equals("Ir a Tienda") && !texto.equals("Ver Inventario") && !texto.startsWith("Adoptar")) {
+                    panelInicio.remove(comp);
+                }
             }
+        }
+
+        for (int i = 0; i < listaMascotas.size(); i++) {
+            JButton btnMascota;
+            Mascota mascota = listaMascotas.mascotaEnCama(i);
 
             if (mascota != null) {
                 btnMascota = new JButton(mascota.getNombre());
@@ -55,66 +100,20 @@ public class PanelInicio implements VistaPanel {
                     btnMascota.setHorizontalTextPosition(SwingConstants.CENTER);
                     btnMascota.setVerticalTextPosition(SwingConstants.BOTTOM);
                 }
+
+                int finalI = i;
+                btnMascota.addActionListener(e -> mostrarVentanaMascota(mascota, finalI));
             } else {
                 btnMascota = new JButton("Vacía");
                 btnMascota.setEnabled(false);
             }
 
             btnMascota.setBounds(200 + (i * 110), 350, 100, 100);
-            Mascota finalMascota = mascota;
-            btnMascota.addActionListener(e -> {
-                String[] opciones = {"Alimentar", "Jugar", "Limpiar", "Medicar", "Tratar", "Cerrar"};
-                boolean seguir = true;
-
-                while (seguir) {
-                    int eleccion = JOptionPane.showOptionDialog(null,
-                            finalMascota.estado(),
-                            "Interacción con " + finalMascota.getNombre(),
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            opciones,
-                            opciones[0]);
-
-                    switch (eleccion) {
-                        case 0 -> {
-                            Comida comida = inventario.getObjeto(Comida.class);
-                            if (comida != null && comida.getCantidad() > 0) {
-                                finalMascota.alimentar(comida);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "No tienes comida");
-                            }
-                        }
-                        case 1 -> {
-                            Juguete juguete = inventario.getObjeto(Juguete.class);
-                            if (juguete != null && juguete.getCantidad() > 0) {
-                                finalMascota.jugar(juguete);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "No tienes juguetes");
-                            }
-                        }
-                        case 2 -> finalMascota.limpiar();
-                        case 3 -> {
-                            Medicina medicina = inventario.getObjeto(Medicina.class);
-                            if (medicina != null && medicina.getCantidad() > 0) {
-                                if (finalMascota.tieneEnfermedad()) {
-                                    finalMascota.medicar(medicina);
-                                    JOptionPane.showMessageDialog(null, finalMascota.getNombre() + " ha sido medicado.");
-                                } else {
-                                    JOptionPane.showMessageDialog(null, finalMascota.getNombre() + " no está enfermo.");
-                                }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "No tienes medicina disponible.");
-                            }
-                        }
-                        case 4 -> finalMascota.tratar();
-                        default -> seguir = false;
-                    }
-                }
-            });
-
             panelInicio.add(btnMascota);
         }
+
+        panelInicio.revalidate();
+        panelInicio.repaint();
     }
 
     private void mostrarVentanaMascota(Mascota mascota, int cama){
