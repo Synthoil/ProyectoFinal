@@ -16,9 +16,9 @@ public class Main {
             listaMascotas.agregarMascota(new Perro());
             inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
             inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
-            inventario.agregarObjeto(new JuguetePelota("Pelota", 20));
-            inventario.agregarObjeto(new Medicina("Antibiótico", 50));
-            inventario.agregarObjeto(new Medicina("Antibiótico", 50));
+            inventario.agregarObjeto(new JuguetePelota("Pelota", 10));
+            inventario.agregarObjeto(new Medicina("Antibiótico", 10));
+            inventario.agregarObjeto(new Medicina("Antibiótico", 10));
 
             new Ventana(inventario, listaMascotas);
         });

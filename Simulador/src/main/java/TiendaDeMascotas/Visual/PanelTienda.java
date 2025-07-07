@@ -12,8 +12,10 @@ import java.awt.*;
 public class PanelTienda implements VistaPanel {
     private final ImagePanel panelTienda;
     private final JButton btnVolverInicio;
+    private final Ventana ventana;
 
-    public PanelTienda(Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
+    public PanelTienda(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
+        this.ventana = ventana;
         panelTienda= new ImagePanel(iconoFondo, 1f);
         panelTienda.setBounds(0, 0, 700, 700);
 
@@ -38,22 +40,39 @@ public class PanelTienda implements VistaPanel {
         JButton btnBarata = new JButton("Croquetas ($10)");
         btnBarata.setBounds(50, 60, 160, 40);
         btnBarata.addActionListener(e -> {
-            inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
-            JOptionPane.showMessageDialog(null, "Compraste Comida Barata");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new ComidaBarata("Croquetas", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Comida Barata por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         JButton btnPromedio = new JButton("Alimento Medio ($25)");
         btnPromedio.setBounds(230, 60, 160, 40);
         btnPromedio.addActionListener(e -> {
-            inventario.agregarObjeto(new ComidaPromedio("Alimento Medio", 25));
-            JOptionPane.showMessageDialog(null, "Compraste Comida Promedio");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new ComidaPromedio("Balanceado", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Comida Promedio por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
-
         JButton btnPremium = new JButton("Alimento Premium ($50)");
         btnPremium.setBounds(410, 60, 160, 40);
         btnPremium.addActionListener(e -> {
-            inventario.agregarObjeto(new ComidaPremium("Alimento Premium", 50));
-            JOptionPane.showMessageDialog(null, "Compraste Comida Premium");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new ComidaPremium("Carne", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Comida Premium por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         panelTienda.add(btnBarata);
@@ -73,22 +92,40 @@ public class PanelTienda implements VistaPanel {
         JButton btnPelota = new JButton("Pelota ($15)");
         btnPelota.setBounds(50, 160, 160, 40);
         btnPelota.addActionListener(e -> {
-            inventario.agregarObjeto(new JuguetePelota("Pelota", 15));
-            JOptionPane.showMessageDialog(null, "Compraste una Pelota");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new JuguetePelota("Pelota", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste un juguete por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         JButton btnLaser = new JButton("Láser ($20)");
         btnLaser.setBounds(230, 160, 160, 40);
         btnLaser.addActionListener(e -> {
-            inventario.agregarObjeto(new JugueteLaser("Láser", 20));
-            JOptionPane.showMessageDialog(null, "Compraste un Láser");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new JugueteLaser("Laser", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Laser por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         JButton btnPez = new JButton("Pez de Goma ($10)");
         btnPez.setBounds(410, 160, 160, 40);
         btnPez.addActionListener(e -> {
-            inventario.agregarObjeto(new JuguetePez("Pez de Goma", 10));
-            JOptionPane.showMessageDialog(null, "Compraste un Pez de Goma");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new JuguetePez("Muñeco pez", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Jueguete para pez por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         panelTienda.add(btnPelota);
@@ -108,8 +145,14 @@ public class PanelTienda implements VistaPanel {
         JButton btnMedicina = new JButton("Antibiótico ($30)");
         btnMedicina.setBounds(50, 260, 200, 40);
         btnMedicina.addActionListener(e -> {
-            inventario.agregarObjeto(new Medicina("Antibiótico", 30));
-            JOptionPane.showMessageDialog(null, "Compraste Medicina");
+            int precio = 10;
+            if (inventario.gastarDinero(precio)) {
+                inventario.agregarObjeto(new Medicina("Antibiotico", precio));
+                ventana.actualizarDinero(inventario.getDinero());
+                JOptionPane.showMessageDialog(null, "Compraste Antibiotico por $" + precio);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            }
         });
 
         panelTienda.add(btnMedicina);

@@ -7,5 +7,4 @@ public enum VistaActual {
     INICIO,
     INVENTARIO,
     TIENDA,
-    ADMINISTRAR
 }

@@ -5,10 +5,26 @@ import java.util.List;
 
 public class Inventario {
     private List<ObjetoComprable> objetos;
+    private int dinero;
 
     public Inventario() {
         this.objetos = new ArrayList<>();
+        this.dinero = 100;
     }
+    public int getDinero(){
+        return dinero;
+    }
+    public boolean gastarDinero(int cantidad) {
+        if (dinero >= cantidad) {
+            dinero -= cantidad;
+            return true;
+        }
+        return false;
+    }
+    public void agregarDinero(int cantidad) {
+        dinero += cantidad;
+    }
+
 
     public void agregarObjeto(ObjetoComprable nuevo) {
         for(ObjetoComprable obj : objetos){

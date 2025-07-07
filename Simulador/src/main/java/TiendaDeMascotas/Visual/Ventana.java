@@ -20,6 +20,7 @@ public class Ventana extends JFrame implements Navegador {
     private final ImageIcon iconoFondoInventario;
 
     private VistaActual vistaActual;
+    private JLabel etiquetaDinero;
 
     public Ventana(Inventario inventario, ListaMascotas listaMascotas) {
         super("Tienda de Mascotas");
@@ -38,11 +39,18 @@ public class Ventana extends JFrame implements Navegador {
         panelCapas.setPreferredSize(new Dimension(1000, 700));
         panelCapas.setLayout(null);
 
+        etiquetaDinero = new JLabel("Dinero: $" + inventario.getDinero());
+        etiquetaDinero.setBounds(800, 10, 180, 40);
+        etiquetaDinero.setFont(new Font("Arial", Font.BOLD, 16));
+        etiquetaDinero.setHorizontalAlignment(SwingConstants.RIGHT);
+        panelCapas.add(etiquetaDinero, Integer.valueOf(2));
+
+
         mapaVistas.put(VistaActual.INICIO,
                 new PanelInicio(this, iconoFondoInicio, listaMascotas, inventario)
         );
         mapaVistas.put(VistaActual.TIENDA,
-                new PanelTienda(this, iconoFondoTienda, inventario)
+                new PanelTienda(this,this, iconoFondoTienda, inventario)
         );
         mapaVistas.put(VistaActual.INVENTARIO,
                 new PanelInventario(this, iconoFondoInicio, inventario)
@@ -58,6 +66,10 @@ public class Ventana extends JFrame implements Navegador {
         setContentPane(panelCapas);
         setVisible(true);
         navegarA(VistaActual.INICIO);
+    }
+
+    public void actualizarDinero(int nuevoValor){
+        etiquetaDinero.setText("Dinero: $" + nuevoValor);
     }
 
     @Override
