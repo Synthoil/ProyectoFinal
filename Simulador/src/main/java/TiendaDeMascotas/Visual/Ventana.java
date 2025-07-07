@@ -50,7 +50,7 @@ public class Ventana extends JFrame implements Navegador {
                 new PanelInicio(this, this, iconoFondoInicio, listaMascotas, inventario)
         );
         mapaVistas.put(VistaActual.TIENDA,
-                new PanelTienda(this,this, iconoFondoTienda, inventario)
+                new PanelTienda(this,this, iconoFondoTienda, inventario, listaMascotas)
         );
         mapaVistas.put(VistaActual.INVENTARIO,
                 new PanelInventario(this, iconoFondoInicio, inventario)

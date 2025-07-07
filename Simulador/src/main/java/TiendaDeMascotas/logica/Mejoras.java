@@ -7,8 +7,9 @@ public class Mejoras  {
     static private Boolean desbloquearJaula = false;
     static private Boolean desbloquearPecera= false;
 
-    public Mejoras() {
-    }
+    private static final int maxCamas = 6;
+
+    public Mejoras() {}
 
     public static void inicializarMejorasPorDefecto() {
         cantidadCamas = 3;
@@ -17,10 +18,19 @@ public class Mejoras  {
         desbloquearJaula = false;
         desbloquearPecera = false;
     }
-
-    public static void comprarCamas(){
-        cantidadCamas++;
+    public static boolean puedeMejorarCama(){
+        return cantidadCamas < maxCamas;
     }
+
+    public static boolean comprarCamas() {
+        if (puedeMejorarCama()) {
+            cantidadCamas++;
+            System.out.println("Cama comprada");
+            return true;
+        }
+        return false;
+    }
+
     public static void comprarMejorAmbiente(){
         mejorAmbiente = 1;
     }

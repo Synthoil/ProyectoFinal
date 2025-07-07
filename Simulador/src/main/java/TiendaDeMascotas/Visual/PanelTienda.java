@@ -13,9 +13,11 @@ public class PanelTienda implements VistaPanel {
     private final ImagePanel panelTienda;
     private final JButton btnVolverInicio;
     private final Ventana ventana;
+    private final ListaMascotas listaMascotas;
 
-    public PanelTienda(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
+    public PanelTienda(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, Inventario inventario, ListaMascotas listaMascotas) {
         this.ventana = ventana;
+        this.listaMascotas = listaMascotas;
         panelTienda= new ImagePanel(iconoFondo, 1f);
         panelTienda.setBounds(0, 0, 700, 700);
 
@@ -154,9 +156,46 @@ public class PanelTienda implements VistaPanel {
                 JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
             }
         });
-
         panelTienda.add(btnMedicina);
 
+        //========MEJORAS========
+        JLabel lblMejoras = new JLabel("SECCIÓN MEJORAS");
+        lblMejoras.setFont(new Font("Arial", Font.BOLD, 16));
+        lblMejoras.setBounds(50, 310, 300, 30);
+        panelTienda.add(lblMejoras);
+
+        JSeparator sepMejoras = new JSeparator();
+        sepMejoras.setBounds(50, 340, 520, 2);
+        panelTienda.add(sepMejoras);
+
+        JButton btnMejorarCama = new JButton("Comprar Cama $100");
+        btnMejorarCama.setBounds(50, 350, 200, 40);
+
+        btnMejorarCama.addActionListener(e -> {
+            int precio = 100;
+
+            if (inventario.getDinero() < precio) {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+                return;
+            }
+
+            if (!Mejoras.puedeMejorarCama()) {
+                JOptionPane.showMessageDialog(null, "Ya tienes el máximo de camas.");
+                return;
+            }
+
+            if (Mejoras.comprarCamas()) {
+                inventario.gastarDinero(precio);
+                ventana.actualizarDinero(inventario.getDinero());
+                listaMascotas.agregarCama();
+                JOptionPane.showMessageDialog(null, "Has comprado una cama nueva");
+
+                if (!Mejoras.puedeMejorarCama()) {
+                    btnMejorarCama.setVisible(false);
+                }
+            }
+        });
+        panelTienda.add(btnMejorarCama);
 
     }
 
