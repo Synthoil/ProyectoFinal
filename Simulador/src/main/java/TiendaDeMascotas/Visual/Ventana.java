@@ -1,5 +1,6 @@
 package TiendaDeMascotas.Visual;
 
+import TiendaDeMascotas.logica.Dinero;
 import TiendaDeMascotas.logica.Inventario;
 import TiendaDeMascotas.logica.ListaMascotas;
 
@@ -19,6 +20,8 @@ public class Ventana extends JFrame implements Navegador {
     private final ImageIcon iconoFondoTienda;
     private final ImageIcon iconoFondoInventario;
 
+    private JLabel lblDinero;
+
     private VistaActual vistaActual;
 
     public Ventana(Inventario inventario, ListaMascotas listaMascotas) {
@@ -37,6 +40,12 @@ public class Ventana extends JFrame implements Navegador {
         panelCapas = new JLayeredPane();
         panelCapas.setPreferredSize(new Dimension(1000, 700));
         panelCapas.setLayout(null);
+
+        lblDinero = new JLabel("Dinero: $" + Dinero.getSaldo());
+        lblDinero.setFont(new Font("Arial", Font.BOLD, 18));
+        lblDinero.setForeground(Color.WHITE);
+        lblDinero.setBounds(540, 10,150,30);
+        panelCapas.add(lblDinero,Integer.valueOf(2));
 
         mapaVistas.put(VistaActual.INICIO,
                 new PanelInicio(this, iconoFondoInicio, listaMascotas, inventario)
@@ -58,6 +67,10 @@ public class Ventana extends JFrame implements Navegador {
         setContentPane(panelCapas);
         setVisible(true);
         navegarA(VistaActual.INICIO);
+    }
+
+    public void actualizarDinero(){
+        lblDinero.setText("Dinero: $" + Dinero.getSaldo());
     }
 
     @Override

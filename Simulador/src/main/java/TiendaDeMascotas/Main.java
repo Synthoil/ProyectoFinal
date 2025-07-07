@@ -1,6 +1,6 @@
 package TiendaDeMascotas;
 
-import TiendaDeMascotas.Visual.Ventana;
+import TiendaDeMascotas.Visual.*;
 import TiendaDeMascotas.logica.*;
 
 import javax.swing.SwingUtilities;
@@ -9,16 +9,17 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Inventario inventario = new Inventario();
+            inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
+            inventario.agregarObjeto(new ComidaPromedio("Balanceado", 20));
+            inventario.agregarObjeto(new ComidaPremium("Carne Premium", 30));
+
+            inventario.agregarObjeto(new JuguetePelota("Pelota", 25));
+            inventario.agregarObjeto(new JugueteLaser("Láser", 15));
+            inventario.agregarObjeto(new JuguetePez("Pez Juguete", 10));
+
+            inventario.agregarObjeto(new Medicina("Antibiótico", 50));
+
             ListaMascotas listaMascotas = new ListaMascotas();
-
-
-            listaMascotas.agregarMascota(new Gato());
-            listaMascotas.agregarMascota(new Perro());
-            inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
-            inventario.agregarObjeto(new ComidaBarata("Croquetas", 10));
-            inventario.agregarObjeto(new JuguetePelota("Pelota", 20));
-            inventario.agregarObjeto(new Medicina("Antibiótico", 50));
-            inventario.agregarObjeto(new Medicina("Antibiótico", 50));
 
             new Ventana(inventario, listaMascotas);
         });

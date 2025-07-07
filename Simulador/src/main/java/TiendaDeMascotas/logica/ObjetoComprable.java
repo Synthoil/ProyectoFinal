@@ -17,4 +17,8 @@ abstract public class ObjetoComprable {
     public String getNombre() {
         return nombre;
     }
+
+    public int getPrecio() {
+        return precio;
+    }
 }
