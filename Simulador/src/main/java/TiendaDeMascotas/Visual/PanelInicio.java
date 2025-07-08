@@ -1,8 +1,6 @@
 package TiendaDeMascotas.Visual;
 
-import TiendaDeMascotas.fabricas.GatoFactory;
-import TiendaDeMascotas.fabricas.MascotaFactory;
-import TiendaDeMascotas.fabricas.PerroFactory;
+import TiendaDeMascotas.fabricas.*;
 import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
@@ -24,6 +22,8 @@ public class PanelInicio implements VistaPanel {
     private final Inventario inventario;
     private final Ventana ventana;
     private final Map<Mascota, Integer> mapaImagenes = new HashMap<>();
+    private Mascota pajaroEnJaula = null;
+    private Mascota pezEnPecera = null;
 
 
     public PanelInicio(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
@@ -43,14 +43,33 @@ public class PanelInicio implements VistaPanel {
                 JOptionPane.showMessageDialog(null, "No tienes suficiente dinero para adoptar.");
                 return;
             }
-            MascotaFactory factory = Math.random() < 0.5 ? new PerroFactory() : new GatoFactory();
+            MascotaFactory factory;
+            double r = Math.random();
+            if (r < 0.25) {
+                factory = new PerroFactory();
+            } else if (r < 0.5) {
+                factory = new GatoFactory();
+            } else if (r < 0.75 && Mejoras.isJaulaDesbloqueada() && pajaroEnJaula == null) {
+                factory = new PajaroFactory();
+            } else if (Mejoras.isAcuarioDesbloqueado() && pezEnPecera == null) {
+                factory = new PezFactory();
+            } else {
+                factory = new PerroFactory();
+            }
+
             Mascota nuevaMascota = factory.crearMascota();
             int index = 1 + (int)(Math.random() * 6);
             mapaImagenes.put(nuevaMascota, index);
 
-            if (!listaMascotas.agregarMascotaEnCamaLibre(nuevaMascota)) {
-                JOptionPane.showMessageDialog(null, "No hay camas disponibles.");
-                return;
+            if (nuevaMascota instanceof Pajaro && Mejoras.isJaulaDesbloqueada() && pajaroEnJaula == null) {
+                pajaroEnJaula = nuevaMascota;
+            } else if (nuevaMascota instanceof Pez && Mejoras.isAcuarioDesbloqueado() && pezEnPecera == null) {
+                pezEnPecera = nuevaMascota;
+            } else {
+                if (!listaMascotas.agregarMascotaEnCamaLibre(nuevaMascota)) {
+                    JOptionPane.showMessageDialog(null, "No hay camas disponibles.");
+                    return;
+                }
             }
 
             inventario.gastarDinero(precioAdopcion);
@@ -87,28 +106,58 @@ public class PanelInicio implements VistaPanel {
     }
 
     private void venderMascota() {
-        List<Integer> camasOcupadas = new ArrayList<>();
+        List<Mascota> disponibles = new ArrayList<>();
+        List<Integer> indices = new ArrayList<>();
+
+
         for (int i = 0; i < listaMascotas.size(); i++) {
-            if (listaMascotas.mascotaEnCama(i) != null) {
-                camasOcupadas.add(i);
+            Mascota m = listaMascotas.mascotaEnCama(i);
+            if (m != null) {
+                disponibles.add(m);
+                indices.add(i);
             }
         }
 
-        if (camasOcupadas.isEmpty()) {
+        if (pajaroEnJaula != null) {
+            disponibles.add(pajaroEnJaula);
+            indices.add(-1);
+        }
+        if (pezEnPecera != null) {
+            disponibles.add(pezEnPecera);
+            indices.add(-2);
+        }
+        if (disponibles.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No tienes mascotas para vender.");
             return;
         }
 
-        int indiceAleatorio = camasOcupadas.get((int) (Math.random() * camasOcupadas.size()));
-        Mascota vendida = listaMascotas.sacarMascotaEnCama(indiceAleatorio);
+        int index = (int) (Math.random() * disponibles.size());
+        Mascota vendida = disponibles.get(index);
+        int origen = indices.get(index);
+
+        if (origen >= 0) {
+            listaMascotas.sacarMascotaEnCama(origen);
+        } else if (origen == -1) {
+            pajaroEnJaula = null;
+        } else if (origen == -2) {
+            pezEnPecera = null;
+        }
         vendida.detenerTimer();
         mapaImagenes.remove(vendida);
 
-        int ganancia = 40 + (int)(Math.random() * 20); // $40 a $60
+        int ganancia;
+        if (vendida instanceof Pajaro) {
+            ganancia = 80 + (int)(Math.random() * 41);
+        } else if (vendida instanceof Pez) {
+            ganancia = 70 + (int)(Math.random() * 31);
+        } else {
+            ganancia = 40 + (int)(Math.random() * 21);
+        }
         inventario.agregarDinero(ganancia);
         ventana.actualizarDinero(inventario.getDinero());
 
-        JOptionPane.showMessageDialog(null, vendida.getNombre() + " ha sido vendido por $" + ganancia);
+        JOptionPane.showMessageDialog(null,
+                vendida.getNombre() + " ha sido vendido por $" + ganancia);
 
         generarBotonesMascotas();
     }
@@ -143,12 +192,17 @@ public class PanelInicio implements VistaPanel {
             Mascota mascota = listaMascotas.mascotaEnCama(i);
             if (mascota != null) {
                 int index = mapaImagenes.getOrDefault(mascota, 1);
-                String rutaMascota;
+                String rutaMascota = "/Imagenes/Mascotas/desconocido.png";
                 if (mascota instanceof Perro) {
                     rutaMascota = "/Imagenes/Mascotas/perro" + index + ".png";
-                } else {
+                } else if (mascota instanceof Gato) {
                     rutaMascota = "/Imagenes/Mascotas/gato" + index + ".png";
+                } else if (mascota instanceof Pajaro) {
+                    rutaMascota = "/Imagenes/Mascotas/pajaro" + index + ".png";
+                } else if (mascota instanceof Pez) {
+                    rutaMascota = "/Imagenes/Mascotas/pez" + index + ".png";
                 }
+
                 ImageIcon iconoMascota = new ImageIcon(getClass().getResource(rutaMascota));
                 Image imgMascota = iconoMascota.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
                 JButton btnMascota = new JButton(new ImageIcon(imgMascota));
@@ -168,9 +222,10 @@ public class PanelInicio implements VistaPanel {
             panelInicio.setComponentZOrder(capa, 0);
         }
         if (Mejoras.isJaulaDesbloqueada()) {
-            int i = cantidadCamas;
-            int x = 180 + (i % camasPorFila) * 120;
-            int y = 300 + (i / camasPorFila) * 130;
+            int filaJaula = 0;
+            int columnaExtra = camasPorFila;
+            int x = 180 + columnaExtra * 120;
+            int y = 300 + filaJaula * 130;
 
             JLayeredPane capa = new JLayeredPane();
             capa.setBounds(x, y, 100, 100);
@@ -183,14 +238,33 @@ public class PanelInicio implements VistaPanel {
             lblJaula.setName("cama");
 
             capa.add(lblJaula, JLayeredPane.DEFAULT_LAYER);
+
+            if (pajaroEnJaula != null) {
+                int index = mapaImagenes.getOrDefault(pajaroEnJaula, 1);
+                String ruta = "/Imagenes/Mascotas/pajaro" + index + ".png";
+                ImageIcon icono = new ImageIcon(getClass().getResource(ruta));
+                Image img = icono.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+
+                JButton btn = new JButton(new ImageIcon(img));
+                btn.setBounds(20, 10, 60, 60);
+                btn.setBorderPainted(false);
+                btn.setContentAreaFilled(false);
+                btn.setOpaque(false);
+                btn.setName("mascota");
+
+                btn.addActionListener(e -> mostrarVentanaMascota(pajaroEnJaula, -1));
+                capa.add(btn, JLayeredPane.PALETTE_LAYER);
+            }
             panelInicio.add(capa);
             panelInicio.setComponentZOrder(capa, 0);
         }
 
+
         if (Mejoras.isAcuarioDesbloqueado()) {
-            int i = cantidadCamas + (Mejoras.isJaulaDesbloqueada() ? 1 : 0);
-            int x = 180 + (i % camasPorFila) * 120;
-            int y = 300 + (i / camasPorFila) * 130;
+            int filaPecera = 1;
+            int columnaExtra = camasPorFila;
+            int x = 180 + columnaExtra * 120;
+            int y = 300 + filaPecera * 130;
 
             JLayeredPane capa = new JLayeredPane();
             capa.setBounds(x, y, 100, 100);
@@ -203,6 +277,23 @@ public class PanelInicio implements VistaPanel {
             lblPecera.setName("cama");
 
             capa.add(lblPecera, JLayeredPane.DEFAULT_LAYER);
+
+            if (pezEnPecera != null) {
+                int index = mapaImagenes.getOrDefault(pezEnPecera, 1);
+                String ruta = "/Imagenes/Mascotas/pez" + index + ".png";
+                ImageIcon icono = new ImageIcon(getClass().getResource(ruta));
+                Image img = icono.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+
+                JButton btn = new JButton(new ImageIcon(img));
+                btn.setBounds(20, 10, 60, 60);
+                btn.setBorderPainted(false);
+                btn.setContentAreaFilled(false);
+                btn.setOpaque(false);
+                btn.setName("mascota");
+
+                btn.addActionListener(e -> mostrarVentanaMascota(pezEnPecera, -2));
+                capa.add(btn, JLayeredPane.PALETTE_LAYER);
+            }
             panelInicio.add(capa);
             panelInicio.setComponentZOrder(capa, 0);
         }
