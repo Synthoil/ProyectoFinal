@@ -36,7 +36,7 @@ public class PanelInicio implements VistaPanel {
         panelInicio.setLayout(null);
 
         btnAdoptar = new JButton("Adoptar ($50)");
-        btnAdoptar.setBounds(400, 20, 200, 40);
+        btnAdoptar.setBounds(12, 300, 150, 50);
         btnAdoptar.addActionListener(e -> {
             int precioAdopcion = 50;
             if (inventario.getDinero() < precioAdopcion) {
@@ -64,14 +64,14 @@ public class PanelInicio implements VistaPanel {
 
         //botones
         btnIrTienda = new JButton("Ir a Tienda");
-        btnIrTienda.setBounds(12, 320, 150, 50);
+        btnIrTienda.setBounds(12, 380, 150, 50);
         btnIrTienda.addActionListener(e ->
                 navegador.navegarA(VistaActual.TIENDA)
         );
         panelInicio.add(btnIrTienda);
 
         btnVerInventario = new JButton("Ver Inventario");
-        btnVerInventario.setBounds(12, 400, 150, 50);
+        btnVerInventario.setBounds(12, 460, 150, 50);
         btnVerInventario.addActionListener(e ->
                 navegador.navegarA(VistaActual.INVENTARIO)
         );
