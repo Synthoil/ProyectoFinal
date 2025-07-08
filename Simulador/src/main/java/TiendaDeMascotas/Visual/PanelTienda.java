@@ -19,10 +19,10 @@ public class PanelTienda implements VistaPanel {
         this.ventana = ventana;
         this.listaMascotas = listaMascotas;
         panelTienda= new ImagePanel(iconoFondo, 1f);
-        panelTienda.setBounds(0, 0, 700, 700);
+        panelTienda.setBounds(0, 0, 1000, 700);
 
         btnVolverInicio = new JButton("X");
-        btnVolverInicio.setBounds(620, 10, 50, 50);
+        btnVolverInicio.setBounds(800, 10, 50, 50);
         btnVolverInicio.addActionListener(e ->
                 navegador.navegarA(VistaActual.INICIO)
         );
@@ -196,8 +196,38 @@ public class PanelTienda implements VistaPanel {
             }
         });
         panelTienda.add(btnMejorarCama);
+        JButton btnJaula = new JButton("Desbloquear Jaula ($100)");
+        btnJaula.setBounds(270, 320, 200, 40);
+        btnJaula.setVisible(!Mejoras.isJaulaDesbloqueada());
+
+        btnJaula.addActionListener(e -> {
+            if (Mejoras.comprarJaula(100, inventario)) {
+                JOptionPane.showMessageDialog(null, "¡Jaula desbloqueada!");
+                ventana.actualizarDinero(inventario.getDinero());
+                btnJaula.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero o ya la desbloqueaste.");
+            }
+        });
+        panelTienda.add(btnJaula);
+
+        JButton btnAcuario = new JButton("Desbloquear Acuario ($120)");
+        btnAcuario.setBounds(490, 320, 200, 40);
+        btnAcuario.setVisible(!Mejoras.isAcuarioDesbloqueado());
+
+        btnAcuario.addActionListener(e -> {
+            if (Mejoras.comprarAcuario(120, inventario)) {
+                JOptionPane.showMessageDialog(null, "¡Acuario desbloqueado!");
+                ventana.actualizarDinero(inventario.getDinero());
+                btnAcuario.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero o ya lo desbloqueaste.");
+            }
+        });
+        panelTienda.add(btnAcuario);
 
     }
+
 
 
     @Override

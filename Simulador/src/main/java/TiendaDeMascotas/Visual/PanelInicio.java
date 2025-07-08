@@ -36,7 +36,7 @@ public class PanelInicio implements VistaPanel {
         panelInicio.setLayout(null);
 
         btnAdoptar = new JButton("Adoptar ($50)");
-        btnAdoptar.setBounds(400, 30, 200, 40);
+        btnAdoptar.setBounds(400, 20, 200, 40);
         btnAdoptar.addActionListener(e -> {
             int precioAdopcion = 50;
             if (inventario.getDinero() < precioAdopcion) {
@@ -79,7 +79,7 @@ public class PanelInicio implements VistaPanel {
 
         JButton btnVender = new JButton("Vender Mascota");
         btnVender.setName("control");
-        btnVender.setBounds(620, 20, 200, 40);
+        btnVender.setBounds(790, 266, 150, 40);
         btnVender.addActionListener(e -> venderMascota());
         panelInicio.add(btnVender);
 
@@ -121,9 +121,10 @@ public class PanelInicio implements VistaPanel {
                 panelInicio.remove(comp);
             }
         }
+        int camasPorFila = 3;
+        int cantidadCamas = listaMascotas.size();
 
-        for (int i = 0; i < listaMascotas.size(); i++) {
-            int camasPorFila = 3;
+        for (int i = 0; i < cantidadCamas; i++) {
             int x = 180 + (i % camasPorFila) * 120;
             int y = 300 + (i / camasPorFila) * 130;
 
@@ -131,7 +132,7 @@ public class PanelInicio implements VistaPanel {
             capa.setBounds(x, y, 100, 100);
             capa.setOpaque(false);
 
-            String rutaCama = "/Imagenes/Espacios(tal vez para Labels)/cama" + ((i % 4) + 1) + ".png";
+            String rutaCama = "/Imagenes/Espacios/cama" + ((i % 4) + 1) + ".png";
             ImageIcon iconoCama = new ImageIcon(getClass().getResource(rutaCama));
             Image imgCama = iconoCama.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             JLabel lblCama = new JLabel(new ImageIcon(imgCama));
@@ -166,6 +167,46 @@ public class PanelInicio implements VistaPanel {
             panelInicio.add(capa);
             panelInicio.setComponentZOrder(capa, 0);
         }
+        if (Mejoras.isJaulaDesbloqueada()) {
+            int i = cantidadCamas;
+            int x = 180 + (i % camasPorFila) * 120;
+            int y = 300 + (i / camasPorFila) * 130;
+
+            JLayeredPane capa = new JLayeredPane();
+            capa.setBounds(x, y, 100, 100);
+            capa.setOpaque(false);
+
+            ImageIcon iconoJaula = new ImageIcon(getClass().getResource("/Imagenes/Espacios/jaula.png"));
+            Image imgJaula = iconoJaula.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            JLabel lblJaula = new JLabel(new ImageIcon(imgJaula));
+            lblJaula.setBounds(0, 0, 100, 100);
+            lblJaula.setName("cama");
+
+            capa.add(lblJaula, JLayeredPane.DEFAULT_LAYER);
+            panelInicio.add(capa);
+            panelInicio.setComponentZOrder(capa, 0);
+        }
+
+        if (Mejoras.isAcuarioDesbloqueado()) {
+            int i = cantidadCamas + (Mejoras.isJaulaDesbloqueada() ? 1 : 0);
+            int x = 180 + (i % camasPorFila) * 120;
+            int y = 300 + (i / camasPorFila) * 130;
+
+            JLayeredPane capa = new JLayeredPane();
+            capa.setBounds(x, y, 100, 100);
+            capa.setOpaque(false);
+
+            ImageIcon iconoPecera = new ImageIcon(getClass().getResource("/Imagenes/Espacios/pecera.png"));
+            Image imgPecera = iconoPecera.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            JLabel lblPecera = new JLabel(new ImageIcon(imgPecera));
+            lblPecera.setBounds(0, 0, 100, 100);
+            lblPecera.setName("cama");
+
+            capa.add(lblPecera, JLayeredPane.DEFAULT_LAYER);
+            panelInicio.add(capa);
+            panelInicio.setComponentZOrder(capa, 0);
+        }
+
         panelInicio.revalidate();
         panelInicio.repaint();
     }

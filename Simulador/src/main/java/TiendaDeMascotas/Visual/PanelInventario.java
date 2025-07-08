@@ -20,7 +20,7 @@ public class PanelInventario implements VistaPanel {
         panelInventario.setLayout(null);
 
         btnVolverInicio = new JButton("X");
-        btnVolverInicio.setBounds(910, 10, 50, 50);
+        btnVolverInicio.setBounds(800, 10, 50, 50);
         btnVolverInicio.addActionListener(e ->
                 navegador.navegarA(VistaActual.INICIO)
         );
