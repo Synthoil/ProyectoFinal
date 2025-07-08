@@ -76,6 +76,11 @@ public abstract class Mascota {
             System.out.println(nombre + "Ha sido tratado");
         }
     }
+    public void detenerTimer() {
+        if (timer1 != null) {
+            timer1.cancel();
+        }
+    }
     //getters y setters
 
     public String getNombre(){

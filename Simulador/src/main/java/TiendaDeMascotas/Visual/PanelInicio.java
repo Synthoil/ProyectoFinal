@@ -7,7 +7,9 @@ import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,13 +77,47 @@ public class PanelInicio implements VistaPanel {
         );
         panelInicio.add(btnVerInventario);
 
+        JButton btnVender = new JButton("Vender Mascota");
+        btnVender.setName("control");
+        btnVender.setBounds(620, 20, 200, 40);
+        btnVender.addActionListener(e -> venderMascota());
+        panelInicio.add(btnVender);
+
         generarBotonesMascotas();
     }
+
+    private void venderMascota() {
+        List<Integer> camasOcupadas = new ArrayList<>();
+        for (int i = 0; i < listaMascotas.size(); i++) {
+            if (listaMascotas.mascotaEnCama(i) != null) {
+                camasOcupadas.add(i);
+            }
+        }
+
+        if (camasOcupadas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No tienes mascotas para vender.");
+            return;
+        }
+
+        int indiceAleatorio = camasOcupadas.get((int) (Math.random() * camasOcupadas.size()));
+        Mascota vendida = listaMascotas.sacarMascotaEnCama(indiceAleatorio);
+        vendida.detenerTimer();
+        mapaImagenes.remove(vendida);
+
+        int ganancia = 40 + (int)(Math.random() * 20); // $40 a $60
+        inventario.agregarDinero(ganancia);
+        ventana.actualizarDinero(inventario.getDinero());
+
+        JOptionPane.showMessageDialog(null, vendida.getNombre() + " ha sido vendido por $" + ganancia);
+
+        generarBotonesMascotas();
+    }
+
 
     private void generarBotonesMascotas() {
         Component[] comps = panelInicio.getComponents();
         for (Component comp : comps) {
-            if ("cama".equals(comp.getName()) || "mascota".equals(comp.getName())) {
+            if (comp instanceof JLayeredPane) {
                 panelInicio.remove(comp);
             }
         }
