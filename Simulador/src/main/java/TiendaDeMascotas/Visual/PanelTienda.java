@@ -22,7 +22,7 @@ public class PanelTienda implements VistaPanel {
         panelTienda.setBounds(0, 0, 1000, 700);
 
         btnVolverInicio = new JButton("X");
-        btnVolverInicio.setBounds(620, 10, 50, 50);
+        btnVolverInicio.setBounds(890, 10, 50, 50);
         btnVolverInicio.addActionListener(e ->
                 navegador.navegarA(VistaActual.INICIO)
         );
