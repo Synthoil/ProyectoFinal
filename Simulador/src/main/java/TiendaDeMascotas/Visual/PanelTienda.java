@@ -22,7 +22,7 @@ public class PanelTienda implements VistaPanel {
         panelTienda.setBounds(0, 0, 1000, 700);
 
         btnVolverInicio = new JButton("X");
-        btnVolverInicio.setBounds(800, 10, 50, 50);
+        btnVolverInicio.setBounds(620, 10, 50, 50);
         btnVolverInicio.addActionListener(e ->
                 navegador.navegarA(VistaActual.INICIO)
         );
@@ -32,15 +32,16 @@ public class PanelTienda implements VistaPanel {
         // ======== COMIDA ========
         JLabel lblComida = new JLabel("SECCIÓN COMIDA");
         lblComida.setFont(new Font("Arial", Font.BOLD, 16));
-        lblComida.setBounds(50, 20, 300, 30);
+        lblComida.setBounds(80, 60, 300, 30);
+        lblComida.setForeground(Color.black);
         panelTienda.add(lblComida);
 
         JSeparator sep1 = new JSeparator();
-        sep1.setBounds(50, 50, 520, 2);
+        sep1.setBounds(80, 90, 520, 2);
         panelTienda.add(sep1);
 
         JButton btnBarata = new JButton("Croquetas ($10)");
-        btnBarata.setBounds(50, 60, 160, 40);
+        btnBarata.setBounds(80, 100, 160, 40);
         btnBarata.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -53,7 +54,7 @@ public class PanelTienda implements VistaPanel {
         });
 
         JButton btnPromedio = new JButton("Alimento Medio ($25)");
-        btnPromedio.setBounds(230, 60, 160, 40);
+        btnPromedio.setBounds(270, 100, 160, 40);
         btnPromedio.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -65,7 +66,7 @@ public class PanelTienda implements VistaPanel {
             }
         });
         JButton btnPremium = new JButton("Alimento Premium ($50)");
-        btnPremium.setBounds(410, 60, 160, 40);
+        btnPremium.setBounds(460, 100, 160, 40);
         btnPremium.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -84,15 +85,16 @@ public class PanelTienda implements VistaPanel {
         // ======== JUGUETES ========
         JLabel lblJuguetes = new JLabel("SECCIÓN JUGUETES");
         lblJuguetes.setFont(new Font("Arial", Font.BOLD, 16));
-        lblJuguetes.setBounds(50, 120, 300, 30);
+        lblJuguetes.setBounds(80, 220, 300, 30);
+        lblJuguetes.setForeground(Color.black);
         panelTienda.add(lblJuguetes);
 
         JSeparator sep2 = new JSeparator();
-        sep2.setBounds(50, 150, 520, 2);
+        sep2.setBounds(80, 250, 520, 2);
         panelTienda.add(sep2);
 
         JButton btnPelota = new JButton("Pelota ($15)");
-        btnPelota.setBounds(50, 160, 160, 40);
+        btnPelota.setBounds(80, 260, 160, 40);
         btnPelota.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -105,7 +107,7 @@ public class PanelTienda implements VistaPanel {
         });
 
         JButton btnLaser = new JButton("Láser ($20)");
-        btnLaser.setBounds(230, 160, 160, 40);
+        btnLaser.setBounds(270, 260, 160, 40);
         btnLaser.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -118,7 +120,7 @@ public class PanelTienda implements VistaPanel {
         });
 
         JButton btnPez = new JButton("Pez de Goma ($10)");
-        btnPez.setBounds(410, 160, 160, 40);
+        btnPez.setBounds(460, 260, 160, 40);
         btnPez.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -137,15 +139,16 @@ public class PanelTienda implements VistaPanel {
         // ======== MEDICINA ========
         JLabel lblMedicina = new JLabel("SECCIÓN MEDICINA");
         lblMedicina.setFont(new Font("Arial", Font.BOLD, 16));
-        lblMedicina.setBounds(50, 220, 300, 30);
+        lblMedicina.setBounds(80, 360, 300, 30);
+        lblMedicina.setForeground(Color.black);
         panelTienda.add(lblMedicina);
 
         JSeparator sep3 = new JSeparator();
-        sep3.setBounds(50, 250, 520, 2);
+        sep3.setBounds(80, 390, 520, 2);
         panelTienda.add(sep3);
 
         JButton btnMedicina = new JButton("Antibiótico ($30)");
-        btnMedicina.setBounds(50, 260, 200, 40);
+        btnMedicina.setBounds(80, 400, 200, 40);
         btnMedicina.addActionListener(e -> {
             int precio = 10;
             if (inventario.gastarDinero(precio)) {
@@ -161,15 +164,16 @@ public class PanelTienda implements VistaPanel {
         //========MEJORAS========
         JLabel lblMejoras = new JLabel("SECCIÓN MEJORAS");
         lblMejoras.setFont(new Font("Arial", Font.BOLD, 16));
-        lblMejoras.setBounds(50, 310, 300, 30);
+        lblMejoras.setBounds(80, 520, 300, 30);
+        lblMejoras.setForeground(Color.black);
         panelTienda.add(lblMejoras);
 
         JSeparator sepMejoras = new JSeparator();
-        sepMejoras.setBounds(50, 340, 520, 2);
+        sepMejoras.setBounds(80, 550, 520, 2);
         panelTienda.add(sepMejoras);
 
         JButton btnMejorarCama = new JButton("Comprar Cama $100");
-        btnMejorarCama.setBounds(50, 350, 200, 40);
+        btnMejorarCama.setBounds(80, 560, 200, 40);
 
         btnMejorarCama.addActionListener(e -> {
             int precio = 100;
@@ -197,7 +201,7 @@ public class PanelTienda implements VistaPanel {
         });
         panelTienda.add(btnMejorarCama);
         JButton btnJaula = new JButton("Desbloquear Jaula ($100)");
-        btnJaula.setBounds(270, 320, 200, 40);
+        btnJaula.setBounds(300, 560, 200, 40);
         btnJaula.setVisible(!Mejoras.isJaulaDesbloqueada());
 
         btnJaula.addActionListener(e -> {
@@ -212,7 +216,7 @@ public class PanelTienda implements VistaPanel {
         panelTienda.add(btnJaula);
 
         JButton btnAcuario = new JButton("Desbloquear Acuario ($120)");
-        btnAcuario.setBounds(490, 320, 200, 40);
+        btnAcuario.setBounds(520, 560, 200, 40);
         btnAcuario.setVisible(!Mejoras.isAcuarioDesbloqueado());
 
         btnAcuario.addActionListener(e -> {
