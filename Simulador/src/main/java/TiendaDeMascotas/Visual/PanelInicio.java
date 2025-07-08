@@ -7,6 +7,8 @@ import TiendaDeMascotas.logica.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Panel de inicio con fondo opaco (alpha = 1).
@@ -19,6 +21,8 @@ public class PanelInicio implements VistaPanel {
     private final ListaMascotas listaMascotas;
     private final Inventario inventario;
     private final Ventana ventana;
+    private final Map<Mascota, Integer> mapaImagenes = new HashMap<>();
+
 
     public PanelInicio(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
         this.listaMascotas = listaMascotas;
@@ -30,7 +34,7 @@ public class PanelInicio implements VistaPanel {
         panelInicio.setLayout(null);
 
         btnAdoptar = new JButton("Adoptar ($50)");
-        btnAdoptar.setBounds(400, 20, 200, 40);
+        btnAdoptar.setBounds(400, 30, 200, 40);
         btnAdoptar.addActionListener(e -> {
             int precioAdopcion = 50;
             if (inventario.getDinero() < precioAdopcion) {
@@ -39,6 +43,8 @@ public class PanelInicio implements VistaPanel {
             }
             MascotaFactory factory = Math.random() < 0.5 ? new PerroFactory() : new GatoFactory();
             Mascota nuevaMascota = factory.crearMascota();
+            int index = 1 + (int)(Math.random() * 6);
+            mapaImagenes.put(nuevaMascota, index);
 
             if (!listaMascotas.agregarMascotaEnCamaLibre(nuevaMascota)) {
                 JOptionPane.showMessageDialog(null, "No hay camas disponibles.");
@@ -56,14 +62,14 @@ public class PanelInicio implements VistaPanel {
 
         //botones
         btnIrTienda = new JButton("Ir a Tienda");
-        btnIrTienda.setBounds(12, 240, 150, 50);
+        btnIrTienda.setBounds(12, 320, 150, 50);
         btnIrTienda.addActionListener(e ->
                 navegador.navegarA(VistaActual.TIENDA)
         );
         panelInicio.add(btnIrTienda);
 
         btnVerInventario = new JButton("Ver Inventario");
-        btnVerInventario.setBounds(12, 320, 150, 50);
+        btnVerInventario.setBounds(12, 400, 150, 50);
         btnVerInventario.addActionListener(e ->
                 navegador.navegarA(VistaActual.INVENTARIO)
         );
@@ -81,8 +87,9 @@ public class PanelInicio implements VistaPanel {
         }
 
         for (int i = 0; i < listaMascotas.size(); i++) {
-            int x = 200 + (i * 110);
-            int y = 350;
+            int camasPorFila = 3;
+            int x = 180 + (i % camasPorFila) * 120;
+            int y = 300 + (i / camasPorFila) * 130;
 
             JLayeredPane capa = new JLayeredPane();
             capa.setBounds(x, y, 100, 100);
@@ -98,9 +105,13 @@ public class PanelInicio implements VistaPanel {
 
             Mascota mascota = listaMascotas.mascotaEnCama(i);
             if (mascota != null) {
-                String rutaMascota = mascota instanceof Perro
-                        ? "/Imagenes/Mascotas/Perro.png"
-                        : "/Imagenes/Mascotas/gato1.png";
+                int index = mapaImagenes.getOrDefault(mascota, 1);
+                String rutaMascota;
+                if (mascota instanceof Perro) {
+                    rutaMascota = "/Imagenes/Mascotas/perro" + index + ".png";
+                } else {
+                    rutaMascota = "/Imagenes/Mascotas/gato" + index + ".png";
+                }
                 ImageIcon iconoMascota = new ImageIcon(getClass().getResource(rutaMascota));
                 Image imgMascota = iconoMascota.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
                 JButton btnMascota = new JButton(new ImageIcon(imgMascota));
