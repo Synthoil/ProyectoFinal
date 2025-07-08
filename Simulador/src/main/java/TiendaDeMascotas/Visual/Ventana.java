@@ -40,8 +40,9 @@ public class Ventana extends JFrame implements Navegador {
         panelCapas.setLayout(null);
 
         etiquetaDinero = new JLabel("Dinero: $" + inventario.getDinero());
-        etiquetaDinero.setBounds(800, 10, 180, 40);
+        etiquetaDinero.setBounds(350, 10, 180, 40);
         etiquetaDinero.setFont(new Font("Arial", Font.BOLD, 16));
+        etiquetaDinero.setForeground(new Color(250,235,210));
         etiquetaDinero.setHorizontalAlignment(SwingConstants.RIGHT);
         panelCapas.add(etiquetaDinero, Integer.valueOf(2));
 
