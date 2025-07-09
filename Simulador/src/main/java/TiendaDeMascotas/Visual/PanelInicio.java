@@ -109,7 +109,6 @@ public class PanelInicio implements VistaPanel {
         List<Mascota> disponibles = new ArrayList<>();
         List<Integer> indices = new ArrayList<>();
 
-
         for (int i = 0; i < listaMascotas.size(); i++) {
             Mascota m = listaMascotas.mascotaEnCama(i);
             if (m != null) {
@@ -117,7 +116,6 @@ public class PanelInicio implements VistaPanel {
                 indices.add(i);
             }
         }
-
         if (pajaroEnJaula != null) {
             disponibles.add(pajaroEnJaula);
             indices.add(-1);
@@ -126,14 +124,42 @@ public class PanelInicio implements VistaPanel {
             disponibles.add(pezEnPecera);
             indices.add(-2);
         }
+
         if (disponibles.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No tienes mascotas para vender.");
             return;
         }
 
-        int index = (int) (Math.random() * disponibles.size());
-        Mascota vendida = disponibles.get(index);
-        int origen = indices.get(index);
+        String[] opciones = new String[disponibles.size()];
+        for (int i = 0; i < disponibles.size(); i++) {
+            Mascota m = disponibles.get(i);
+            opciones[i] = m.getNombre() + " (" + m.getClass().getSimpleName() + ")";
+        }
+
+        String seleccion = (String) JOptionPane.showInputDialog(
+                null,
+                "¿Cuál mascota deseas vender?",
+                "Seleccionar Mascota",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
+
+        if (seleccion == null) return;
+
+        int seleccionIndex = -1;
+        for (int i = 0; i < opciones.length; i++) {
+            if (opciones[i].equals(seleccion)) {
+                seleccionIndex = i;
+                break;
+            }
+        }
+
+        if (seleccionIndex == -1) return;
+
+        Mascota vendida = disponibles.get(seleccionIndex);
+        int origen = indices.get(seleccionIndex);
 
         if (origen >= 0) {
             listaMascotas.sacarMascotaEnCama(origen);
@@ -142,32 +168,28 @@ public class PanelInicio implements VistaPanel {
         } else if (origen == -2) {
             pezEnPecera = null;
         }
+
         vendida.detenerTimer();
         mapaImagenes.remove(vendida);
 
         int base;
-        if (vendida instanceof Pajaro) {
-            base = 80;
-        } else if (vendida instanceof Pez) {
-            base = 70;
-        } else {
-            base = 40;
-        }
+        if (vendida instanceof Pajaro) base = 80;
+        else if (vendida instanceof Pez) base = 70;
+        else base = 40;
 
         int bonus = 0;
         if (vendida.getEstomago() > 70) bonus += 20;
         if (vendida.getHigiene() > 70) bonus += 20;
         if (vendida.getFelicidad() > 70) bonus += 20;
-
         if (vendida.getEstomago() < 30) bonus -= 10;
         if (vendida.getHigiene() < 30) bonus -= 10;
         if (vendida.getFelicidad() < 30) bonus -= 10;
-
         if (vendida.tieneEnfermedad()) bonus -= 15;
         if (vendida.tieneLesion()) bonus -= 15;
 
-        int ganancia = base + bonus + (int)(Math.random() * 11);
+        int ganancia = base + bonus + (int) (Math.random() * 11);
         ganancia = Math.max(10, ganancia);
+
         inventario.agregarDinero(ganancia);
         ventana.actualizarDinero(inventario.getDinero());
 
