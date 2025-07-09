@@ -42,9 +42,9 @@ public class Inventario {
         return objetos;
     }
 
-    public <T extends ObjetoComprable> T getObjeto(Class<T> tipo) {
+    public <T extends ObjetoComprable> T getObjetoDisponible(Class<T> tipo) {
         for (ObjetoComprable obj : objetos) {
-            if (tipo.isInstance(obj)) {
+            if (tipo.isInstance(obj) && obj.getCantidad() > 0) {
                 return tipo.cast(obj);
             }
         }

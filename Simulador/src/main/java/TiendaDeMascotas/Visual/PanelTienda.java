@@ -40,10 +40,10 @@ public class PanelTienda implements VistaPanel {
         sep1.setBounds(80, 90, 520, 2);
         panelTienda.add(sep1);
 
-        JButton btnBarata = new JButton("Croquetas ($10)");
+        JButton btnBarata = new JButton("Croquetas ($12)");
         btnBarata.setBounds(80, 100, 160, 40);
         btnBarata.addActionListener(e -> {
-            int precio = 10;
+            int precio = 12;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new ComidaBarata("Croquetas", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -53,10 +53,10 @@ public class PanelTienda implements VistaPanel {
             }
         });
 
-        JButton btnPromedio = new JButton("Alimento Medio ($25)");
+        JButton btnPromedio = new JButton("Alimento Medio ($20)");
         btnPromedio.setBounds(270, 100, 160, 40);
         btnPromedio.addActionListener(e -> {
-            int precio = 10;
+            int precio = 20;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new ComidaPromedio("Balanceado", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -65,10 +65,10 @@ public class PanelTienda implements VistaPanel {
                 JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
             }
         });
-        JButton btnPremium = new JButton("Alimento Premium ($50)");
+        JButton btnPremium = new JButton("Alimento Premium ($35)");
         btnPremium.setBounds(460, 100, 160, 40);
         btnPremium.addActionListener(e -> {
-            int precio = 10;
+            int precio = 35;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new ComidaPremium("Carne", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -96,7 +96,7 @@ public class PanelTienda implements VistaPanel {
         JButton btnPelota = new JButton("Pelota ($15)");
         btnPelota.setBounds(80, 260, 160, 40);
         btnPelota.addActionListener(e -> {
-            int precio = 10;
+            int precio = 15;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new JuguetePelota("Pelota", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -106,10 +106,10 @@ public class PanelTienda implements VistaPanel {
             }
         });
 
-        JButton btnLaser = new JButton("Láser ($20)");
+        JButton btnLaser = new JButton("Láser ($25)");
         btnLaser.setBounds(270, 260, 160, 40);
         btnLaser.addActionListener(e -> {
-            int precio = 10;
+            int precio = 25;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new JugueteLaser("Laser", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -150,7 +150,7 @@ public class PanelTienda implements VistaPanel {
         JButton btnMedicina = new JButton("Antibiótico ($30)");
         btnMedicina.setBounds(80, 400, 200, 40);
         btnMedicina.addActionListener(e -> {
-            int precio = 10;
+            int precio = 30;
             if (inventario.gastarDinero(precio)) {
                 inventario.agregarObjeto(new Medicina("Antibiotico", precio));
                 ventana.actualizarDinero(inventario.getDinero());
@@ -200,6 +200,7 @@ public class PanelTienda implements VistaPanel {
             }
         });
         panelTienda.add(btnMejorarCama);
+
         JButton btnJaula = new JButton("Desbloquear Jaula ($100)");
         btnJaula.setBounds(300, 560, 200, 40);
         btnJaula.setVisible(!Mejoras.isJaulaDesbloqueada());

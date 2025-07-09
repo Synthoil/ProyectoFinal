@@ -145,14 +145,29 @@ public class PanelInicio implements VistaPanel {
         vendida.detenerTimer();
         mapaImagenes.remove(vendida);
 
-        int ganancia;
+        int base;
         if (vendida instanceof Pajaro) {
-            ganancia = 80 + (int)(Math.random() * 41);
+            base = 80;
         } else if (vendida instanceof Pez) {
-            ganancia = 70 + (int)(Math.random() * 31);
+            base = 70;
         } else {
-            ganancia = 40 + (int)(Math.random() * 21);
+            base = 40;
         }
+
+        int bonus = 0;
+        if (vendida.getEstomago() > 70) bonus += 20;
+        if (vendida.getHigiene() > 70) bonus += 20;
+        if (vendida.getFelicidad() > 70) bonus += 20;
+
+        if (vendida.getEstomago() < 30) bonus -= 10;
+        if (vendida.getHigiene() < 30) bonus -= 10;
+        if (vendida.getFelicidad() < 30) bonus -= 10;
+
+        if (vendida.tieneEnfermedad()) bonus -= 15;
+        if (vendida.tieneLesion()) bonus -= 15;
+
+        int ganancia = base + bonus + (int)(Math.random() * 11);
+        ganancia = Math.max(10, ganancia);
         inventario.agregarDinero(ganancia);
         ventana.actualizarDinero(inventario.getDinero());
 
@@ -216,6 +231,13 @@ public class PanelInicio implements VistaPanel {
                 int finalI = i;
                 btnMascota.addActionListener(e -> mostrarVentanaMascota(finalMascota, finalI));
 
+                JLabel lblNombre = new JLabel(mascota.getNombre(), JLabel.CENTER);
+                lblNombre.setFont(new Font("SansSerif", Font.BOLD, 12));
+                lblNombre.setBounds(0, 80, 100, 20);
+                lblNombre.setForeground(Color.BLACK);
+                capa.add(lblNombre, JLayeredPane.POPUP_LAYER);
+
+
                 capa.add(btnMascota, JLayeredPane.PALETTE_LAYER);
             }
             panelInicio.add(capa);
@@ -254,6 +276,12 @@ public class PanelInicio implements VistaPanel {
 
                 btn.addActionListener(e -> mostrarVentanaMascota(pajaroEnJaula, -1));
                 capa.add(btn, JLayeredPane.PALETTE_LAYER);
+
+                JLabel lblNombre = new JLabel(pajaroEnJaula.getNombre(), JLabel.CENTER);
+                lblNombre.setFont(new Font("SansSerif", Font.BOLD, 12));
+                lblNombre.setBounds(0, 80, 100, 20);
+                lblNombre.setForeground(Color.BLACK);
+                capa.add(lblNombre, JLayeredPane.POPUP_LAYER);
             }
             panelInicio.add(capa);
             panelInicio.setComponentZOrder(capa, 0);
@@ -293,6 +321,12 @@ public class PanelInicio implements VistaPanel {
 
                 btn.addActionListener(e -> mostrarVentanaMascota(pezEnPecera, -2));
                 capa.add(btn, JLayeredPane.PALETTE_LAYER);
+
+                JLabel lblNombre = new JLabel(pezEnPecera.getNombre(), JLabel.CENTER);
+                lblNombre.setFont(new Font("SansSerif", Font.BOLD, 12));
+                lblNombre.setBounds(0, 80, 100, 20);
+                lblNombre.setForeground(Color.BLACK);
+                capa.add(lblNombre, JLayeredPane.POPUP_LAYER);
             }
             panelInicio.add(capa);
             panelInicio.setComponentZOrder(capa, 0);
@@ -424,7 +458,7 @@ public class PanelInicio implements VistaPanel {
             boton.addActionListener(e -> {
                 switch (opcion) {
                     case "Alimentar" -> {
-                        Comida comida = inventario.getObjeto(Comida.class);
+                        Comida comida = inventario.getObjetoDisponible(Comida.class);
                         if (comida != null && comida.getCantidad() > 0) {
                             mascota.alimentar(comida);
                         } else {
@@ -432,7 +466,7 @@ public class PanelInicio implements VistaPanel {
                         }
                     }
                     case "Jugar" -> {
-                        Juguete juguete = inventario.getObjeto(Juguete.class);
+                        Juguete juguete = inventario.getObjetoDisponible(Juguete.class);
                         if (juguete != null && juguete.getCantidad() > 0) {
                             mascota.jugar(juguete);
                         } else {
@@ -441,7 +475,7 @@ public class PanelInicio implements VistaPanel {
                     }
                     case "Limpiar" -> mascota.limpiar();
                     case "Medicar" -> {
-                        Medicina medicina = inventario.getObjeto(Medicina.class);
+                        Medicina medicina = inventario.getObjetoDisponible(Medicina.class);
                         if (medicina != null && medicina.getCantidad() > 0) {
                             if (mascota.tieneEnfermedad()) {
                                 mascota.medicar(medicina);
