@@ -1,5 +1,8 @@
 package TiendaDeMascotas.logica;
 
+import TiendaDeMascotas.excepciones.DineroInsuficienteException;
+import TiendaDeMascotas.excepciones.ObjetoNoDisponibleException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +17,11 @@ public class Inventario {
     public int getDinero(){
         return dinero;
     }
-    public boolean gastarDinero(int cantidad) {
-        if (dinero >= cantidad) {
-            dinero -= cantidad;
-            return true;
+    public void gastarDinero(int cantidad) {
+        if (dinero < cantidad) {
+            throw new DineroInsuficienteException("No tienes suficiente dinero para completar la operación.");
         }
-        return false;
+        dinero -= cantidad;
     }
     public void agregarDinero(int cantidad) {
         dinero += cantidad;
@@ -48,7 +50,7 @@ public class Inventario {
                 return tipo.cast(obj);
             }
         }
-        return null;
+        throw new ObjetoNoDisponibleException("No tienes " + tipo.getSimpleName().toLowerCase() + " disponible.");
     }
 
 }

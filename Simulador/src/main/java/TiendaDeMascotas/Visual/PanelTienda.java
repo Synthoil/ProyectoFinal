@@ -1,6 +1,8 @@
 package TiendaDeMascotas.Visual;
 
 import TiendaDeMascotas.logica.*;
+import TiendaDeMascotas.excepciones.DineroInsuficienteException;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,12 +46,13 @@ public class PanelTienda implements VistaPanel {
         btnBarata.setBounds(80, 100, 160, 40);
         btnBarata.addActionListener(e -> {
             int precio = 12;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new ComidaBarata("Croquetas", precio));
                 ventana.actualizarDinero(inventario.getDinero());
                 JOptionPane.showMessageDialog(null, "Compraste Comida Barata por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -57,24 +60,26 @@ public class PanelTienda implements VistaPanel {
         btnPromedio.setBounds(270, 100, 160, 40);
         btnPromedio.addActionListener(e -> {
             int precio = 20;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new ComidaPromedio("Balanceado", precio));
                 ventana.actualizarDinero(inventario.getDinero());
                 JOptionPane.showMessageDialog(null, "Compraste Comida Promedio por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
         JButton btnPremium = new JButton("Alimento Premium ($35)");
         btnPremium.setBounds(460, 100, 160, 40);
         btnPremium.addActionListener(e -> {
             int precio = 35;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new ComidaPremium("Carne", precio));
                 ventana.actualizarDinero(inventario.getDinero());
                 JOptionPane.showMessageDialog(null, "Compraste Comida Premium por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -97,12 +102,13 @@ public class PanelTienda implements VistaPanel {
         btnPelota.setBounds(80, 260, 160, 40);
         btnPelota.addActionListener(e -> {
             int precio = 15;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new JuguetePelota("Pelota", precio));
                 ventana.actualizarDinero(inventario.getDinero());
-                JOptionPane.showMessageDialog(null, "Compraste un juguete por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "Compraste una Pelota por $" + precio);
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -110,12 +116,13 @@ public class PanelTienda implements VistaPanel {
         btnLaser.setBounds(270, 260, 160, 40);
         btnLaser.addActionListener(e -> {
             int precio = 25;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new JugueteLaser("Laser", precio));
                 ventana.actualizarDinero(inventario.getDinero());
-                JOptionPane.showMessageDialog(null, "Compraste Laser por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "Compraste un Laser por $" + precio);
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -123,12 +130,13 @@ public class PanelTienda implements VistaPanel {
         btnPez.setBounds(460, 260, 160, 40);
         btnPez.addActionListener(e -> {
             int precio = 10;
-            if (inventario.gastarDinero(precio)) {
+            try {
+                inventario.gastarDinero(precio);
                 inventario.agregarObjeto(new JuguetePez("Muñeco pez", precio));
                 ventana.actualizarDinero(inventario.getDinero());
-                JOptionPane.showMessageDialog(null, "Compraste Jueguete para pez por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "Compraste juguete para pez por $" + precio);
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -151,12 +159,13 @@ public class PanelTienda implements VistaPanel {
         btnMedicina.setBounds(80, 400, 200, 40);
         btnMedicina.addActionListener(e -> {
             int precio = 30;
-            if (inventario.gastarDinero(precio)) {
-                inventario.agregarObjeto(new Medicina("Antibiotico", precio));
+            try {
+                inventario.gastarDinero(precio);
+                inventario.agregarObjeto(new Medicina("Antibioticos", precio));
                 ventana.actualizarDinero(inventario.getDinero());
-                JOptionPane.showMessageDialog(null, "Compraste Antibiotico por $" + precio);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero.");
+                JOptionPane.showMessageDialog(null, "Compraste Medicina por $" + precio);
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
         });
         panelTienda.add(btnMedicina);
@@ -183,21 +192,26 @@ public class PanelTienda implements VistaPanel {
                 return;
             }
 
-            if (!Mejoras.puedeMejorarCama()) {
-                JOptionPane.showMessageDialog(null, "Ya tienes el máximo de camas.");
-                return;
-            }
-
-            if (Mejoras.comprarCamas()) {
-                inventario.gastarDinero(precio);
-                ventana.actualizarDinero(inventario.getDinero());
-                listaMascotas.agregarCama();
-                JOptionPane.showMessageDialog(null, "Has comprado una cama nueva");
-
+            try {
                 if (!Mejoras.puedeMejorarCama()) {
-                    btnMejorarCama.setVisible(false);
+                    JOptionPane.showMessageDialog(null, "Ya tienes el máximo de camas.");
+                    return;
                 }
+
+                if (Mejoras.comprarCamas()) {
+                    inventario.gastarDinero(precio);
+                    ventana.actualizarDinero(inventario.getDinero());
+                    listaMascotas.agregarCama();
+                    JOptionPane.showMessageDialog(null, "Has comprado una cama nueva");
+
+                    if (!Mejoras.puedeMejorarCama()) {
+                        btnMejorarCama.setVisible(false);
+                    }
+                }
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
+
         });
         panelTienda.add(btnMejorarCama);
 
@@ -206,13 +220,18 @@ public class PanelTienda implements VistaPanel {
         btnJaula.setVisible(!Mejoras.isJaulaDesbloqueada());
 
         btnJaula.addActionListener(e -> {
-            if (Mejoras.comprarJaula(100, inventario)) {
-                JOptionPane.showMessageDialog(null, "¡Jaula desbloqueada!");
-                ventana.actualizarDinero(inventario.getDinero());
-                btnJaula.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero o ya la desbloqueaste.");
+            try {
+                if (Mejoras.comprarJaula(100, inventario)) {
+                    JOptionPane.showMessageDialog(null, "¡Jaula desbloqueada!");
+                    ventana.actualizarDinero(inventario.getDinero());
+                    btnJaula.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya la tienes desbloqueada.");
+                }
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
+
         });
         panelTienda.add(btnJaula);
 
@@ -221,13 +240,18 @@ public class PanelTienda implements VistaPanel {
         btnAcuario.setVisible(!Mejoras.isAcuarioDesbloqueado());
 
         btnAcuario.addActionListener(e -> {
-            if (Mejoras.comprarAcuario(120, inventario)) {
-                JOptionPane.showMessageDialog(null, "¡Acuario desbloqueado!");
-                ventana.actualizarDinero(inventario.getDinero());
-                btnAcuario.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "No tienes suficiente dinero o ya lo desbloqueaste.");
+            try {
+                if (Mejoras.comprarAcuario(120, inventario)) {
+                    JOptionPane.showMessageDialog(null, "¡Acuario desbloqueado!");
+                    ventana.actualizarDinero(inventario.getDinero());
+                    btnAcuario.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya está desbloqueado.");
+                }
+            } catch (DineroInsuficienteException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
             }
+
         });
         panelTienda.add(btnAcuario);
 

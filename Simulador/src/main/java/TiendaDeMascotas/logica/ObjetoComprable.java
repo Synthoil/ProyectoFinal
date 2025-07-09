@@ -16,6 +16,12 @@ abstract public class ObjetoComprable {
     }
     public abstract int getCantidad();
 
+    public void restarCantidad() {
+        if (cantidad > 0) {
+            cantidad--;
+        }
+    }
+
     public String getNombre() {
         return nombre;
     }

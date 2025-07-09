@@ -115,6 +115,4 @@ public abstract class Mascota {
     public boolean tieneLesion(){
         return extremidad_rota;
     }
-
-
 }

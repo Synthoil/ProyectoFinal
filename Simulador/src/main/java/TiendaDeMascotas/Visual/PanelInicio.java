@@ -1,5 +1,9 @@
 package TiendaDeMascotas.Visual;
 
+import TiendaDeMascotas.excepciones.HabitatNoDisponibleException;
+import TiendaDeMascotas.excepciones.LimiteDeCamasAlcanzadoException;
+import TiendaDeMascotas.excepciones.MascotaNoSeleccionadaException;
+import TiendaDeMascotas.excepciones.ObjetoNoDisponibleException;
 import TiendaDeMascotas.fabricas.*;
 import TiendaDeMascotas.logica.*;
 
@@ -45,16 +49,23 @@ public class PanelInicio implements VistaPanel {
             }
             MascotaFactory factory;
             double r = Math.random();
+
             if (r < 0.25) {
                 factory = new PerroFactory();
             } else if (r < 0.5) {
                 factory = new GatoFactory();
-            } else if (r < 0.75 && Mejoras.isJaulaDesbloqueada() && pajaroEnJaula == null) {
-                factory = new PajaroFactory();
-            } else if (Mejoras.isAcuarioDesbloqueado() && pezEnPecera == null) {
-                factory = new PezFactory();
+            } else if (r < 0.75) {
+                if (Mejoras.isJaulaDesbloqueada() && pajaroEnJaula == null) {
+                    factory = new PajaroFactory();
+                } else {
+                    throw new HabitatNoDisponibleException("Debes desbloquear la jaula antes de adoptar un pájaro.");
+                }
             } else {
-                factory = new PerroFactory();
+                if (Mejoras.isAcuarioDesbloqueado() && pezEnPecera == null) {
+                    factory = new PezFactory();
+                } else {
+                    throw new HabitatNoDisponibleException("Debes desbloquear el acuario antes de adoptar un pez.");
+                }
             }
 
             Mascota nuevaMascota = factory.crearMascota();
@@ -67,9 +78,9 @@ public class PanelInicio implements VistaPanel {
                 pezEnPecera = nuevaMascota;
             } else {
                 if (!listaMascotas.agregarMascotaEnCamaLibre(nuevaMascota)) {
-                    JOptionPane.showMessageDialog(null, "No hay camas disponibles.");
-                    return;
+                    throw new LimiteDeCamasAlcanzadoException("Ya alcanzaste el límite de camas disponibles.");
                 }
+
             }
 
             inventario.gastarDinero(precioAdopcion);
@@ -146,7 +157,10 @@ public class PanelInicio implements VistaPanel {
                 opciones[0]
         );
 
-        if (seleccion == null) return;
+        if (seleccion == null) {
+            throw new MascotaNoSeleccionadaException("No seleccionaste ninguna mascota.");
+        }
+
 
         int seleccionIndex = -1;
         for (int i = 0; i < opciones.length; i++) {
@@ -480,33 +494,31 @@ public class PanelInicio implements VistaPanel {
             boton.addActionListener(e -> {
                 switch (opcion) {
                     case "Alimentar" -> {
-                        Comida comida = inventario.getObjetoDisponible(Comida.class);
-                        if (comida != null && comida.getCantidad() > 0) {
+                        try {
+                            Comida comida = inventario.getObjetoDisponible(Comida.class);
                             mascota.alimentar(comida);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No tienes comida.");
+                            ventana.repaint();
+                        } catch (ObjetoNoDisponibleException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                     case "Jugar" -> {
-                        Juguete juguete = inventario.getObjetoDisponible(Juguete.class);
-                        if (juguete != null && juguete.getCantidad() > 0) {
+                        try {
+                            Juguete juguete = inventario.getObjetoDisponible(Juguete.class);
                             mascota.jugar(juguete);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No tienes juguetes.");
+                            ventana.repaint();
+                        } catch (ObjetoNoDisponibleException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Sin juguetes", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                     case "Limpiar" -> mascota.limpiar();
                     case "Medicar" -> {
-                        Medicina medicina = inventario.getObjetoDisponible(Medicina.class);
-                        if (medicina != null && medicina.getCantidad() > 0) {
-                            if (mascota.tieneEnfermedad()) {
-                                mascota.medicar(medicina);
-                                JOptionPane.showMessageDialog(null, mascota.getNombre() + " ha sido medicado.");
-                            } else {
-                                JOptionPane.showMessageDialog(null, mascota.getNombre() + " no está enfermo.");
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No tienes medicina.");
+                        try {
+                            Medicina medicina = inventario.getObjetoDisponible(Medicina.class);
+                            mascota.medicar(medicina);
+                            ventana.repaint();
+                        } catch (ObjetoNoDisponibleException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Sin medicina", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                     case "Tratar" -> mascota.tratar();
