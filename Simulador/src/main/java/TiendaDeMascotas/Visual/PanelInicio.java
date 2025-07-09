@@ -383,6 +383,42 @@ public class PanelInicio implements VistaPanel {
 
         String[] opciones = {"Alimentar", "Jugar", "Limpiar", "Medicar", "Tratar", "Cerrar"};
 
+        final boolean[] notificadoEstomago = {false};
+        final boolean[] notificadoFelicidad = {false};
+        final boolean[] notificadoHigiene = {false};
+
+        ObservadorMascota observador = new ObservadorMascota() {
+            @Override
+            public void actualizar(Mascota m) {
+                SwingUtilities.invokeLater(() -> {
+                    lblEstomago.setText(" Estómago: " + m.getEstomago());
+                    lblHigiene.setText(" Higiene: " + m.getHigiene());
+                    lblFelicidad.setText(" Felicidad: " + m.getFelicidad());
+                    lblEnfermedad.setText(" Enfermo: " + (m.tieneEnfermedad() ? "Sí" : "No"));
+                    lblLesion.setText(" Lesión: " + (m.tieneLesion() ? "Sí" : "No"));
+
+                    if (m.getEstomago() < 20 && !notificadoEstomago[0]) {
+                        JOptionPane.showMessageDialog(dialogo, m.getNombre() + " tiene mucha hambre.", "Atención", JOptionPane.WARNING_MESSAGE);
+                        notificadoEstomago[0] = true;
+                    }
+                    if (m.getFelicidad() < 20 && !notificadoFelicidad[0]) {
+                        JOptionPane.showMessageDialog(dialogo, m.getNombre() + " está muy triste.", "Atención", JOptionPane.WARNING_MESSAGE);
+                        notificadoFelicidad[0] = true;
+                    }
+                    if (m.getHigiene() < 20 && !notificadoHigiene[0]) {
+                        JOptionPane.showMessageDialog(dialogo, m.getNombre() + " está muy sucio.", "Atención", JOptionPane.WARNING_MESSAGE);
+                        notificadoHigiene[0] = true;
+                    }
+
+                    if (m.getEstomago() >= 25) notificadoEstomago[0] = false;
+                    if (m.getFelicidad() >= 25) notificadoFelicidad[0] = false;
+                    if (m.getHigiene() >= 25) notificadoHigiene[0] = false;
+                });
+            }
+        };
+        mascota.agregarObservador(observador);
+        observador.actualizar(mascota);
+
         for (String opcion : opciones) {
             JButton boton = new JButton(opcion);
             boton.addActionListener(e -> {
@@ -418,14 +454,11 @@ public class PanelInicio implements VistaPanel {
                         }
                     }
                     case "Tratar" -> mascota.tratar();
-                    case "Cerrar" -> dialogo.dispose();
+                    case "Cerrar" ->{
+                            mascota.quitarObservador(observador);
+                            dialogo.dispose();
+                    }
                 }
-
-                lblEstomago.setText(" Estómago: " + mascota.getEstomago());
-                lblHigiene.setText(" Higiene: " + mascota.getHigiene());
-                lblFelicidad.setText(" Felicidad: " + mascota.getFelicidad());
-                lblEnfermedad.setText(" Enfermo: " + (mascota.tieneEnfermedad() ? "Sí" : "No"));
-                lblLesion.setText(" Lesión: " + (mascota.tieneLesion() ? "Sí" : "No"));
             });
             acciones.add(boton);
         }

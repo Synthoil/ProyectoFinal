@@ -1,9 +1,12 @@
 package TiendaDeMascotas.logica;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class Mascota {
+    private List<ObservadorMascota> observadores = new ArrayList<>();
     private String nombre;
     private String color;
     private int higiene;
@@ -28,16 +31,10 @@ public abstract class Mascota {
         timer1.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                //Para ver si bajan las estadisticas o si funcionan los metodos
-                System.out.println("Comida:" + estomago);
-                System.out.println("Felicidad" + felicidad);
-                System.out.println("Higiene" + higiene);
                 estomago = Math.max(0, estomago - 1 + Mejoras.getComederoAutomatico());
                 higiene = Math.max(0, higiene - 1);
                 felicidad = Math.max(0, felicidad + Mejoras.getAmbiente());
-                System.out.println("Comida:" + estomago);
-                System.out.println("Felicidad" + felicidad);
-                System.out.println("Higiene" + higiene);
+                notificarObservadores();
             }
         }, 0, 2000);
     }
@@ -46,6 +43,7 @@ public abstract class Mascota {
         if (comida != null && comida.cantidad > 0){
             estomago = Math.min(100, estomago + comida.nutricion());
             System.out.println(nombre + " Ha sido alimentado");
+            notificarObservadores();
         }
     }
     // Jugar llena la felicidad, baja el higiene y el estomago
@@ -55,18 +53,21 @@ public abstract class Mascota {
             higiene = Math.max(0, higiene - juguete.suciedad());
             estomago--;
             System.out.println(felicidad + "esta mas feliz");
+            notificarObservadores();
         }
     }
     //Queda totalmente limpio
     public void limpiar(){
         higiene = Math.min(100, higiene +30);
         System.out.println(nombre + " Ha sido limpiado");
+        notificarObservadores();
     }
     // Si hay una enfermedad se usa Medicina para curarlo
     public void medicar(Medicina medicina){
         if(medicina != null && enfermedad && medicina.cantidad > 0){
             medicina.usar(this);
             System.out.println(nombre + "Ha sido curado");
+            notificarObservadores();
         }
     }
     // Si hay una extremidad rota se trata
@@ -74,6 +75,7 @@ public abstract class Mascota {
         if(extremidad_rota){
             extremidad_rota = false;
             System.out.println(nombre + "Ha sido tratado");
+            notificarObservadores();
         }
     }
     public void detenerTimer() {
@@ -81,8 +83,21 @@ public abstract class Mascota {
             timer1.cancel();
         }
     }
-    //getters y setters
+    public void agregarObservador(ObservadorMascota o) {
+        observadores.add(o);
+    }
 
+    public void quitarObservador(ObservadorMascota o) {
+        observadores.remove(o);
+    }
+
+    protected void notificarObservadores() {
+        for (ObservadorMascota o : observadores) {
+            o.actualizar(this);
+        }
+    }
+
+    //getters y setters
     public String getNombre(){
         return nombre;
     }
