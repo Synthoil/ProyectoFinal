@@ -304,17 +304,82 @@ public class PanelInicio implements VistaPanel {
 
     private void mostrarVentanaMascota(Mascota mascota, int cama) {
         JDialog dialogo = new JDialog();
-        dialogo.setTitle("Interacción con " + mascota.getNombre());
-        dialogo.setSize(300, 300);
+        dialogo.setTitle("🐾 " + mascota.getNombre());
+        dialogo.setSize(460, 380);
         dialogo.setLocationRelativeTo(null);
         dialogo.setLayout(new BorderLayout());
 
-        JTextArea stats = new JTextArea(mascota.estado());
-        stats.setEditable(false);
-        dialogo.add(stats, BorderLayout.CENTER);
+        int iconSize = 24;
 
-        JPanel acciones = new JPanel();
-        acciones.setLayout(new GridLayout(2, 3));
+        //titulo
+        JLabel titulo = new JLabel("🐾 " + mascota.getNombre(), JLabel.CENTER);
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 22));
+        titulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogo.add(titulo, BorderLayout.NORTH);
+
+        //iconos estadisticas
+        ImageIcon iconEstomago = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/estomago.png"));
+        ImageIcon iconHigiene = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/Higiene.png"));
+        ImageIcon iconFelicidad = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/Felicidad.png"));
+        ImageIcon iconEnfermedad = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/Enfermedad.png"));
+        ImageIcon iconLesion = new ImageIcon(getClass().getResource("/Imagenes/Mascotas/Lesion.png"));
+
+
+        iconEstomago = new ImageIcon(iconEstomago.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+        iconHigiene = new ImageIcon(iconHigiene.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+        iconFelicidad = new ImageIcon(iconFelicidad.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+        iconEnfermedad = new ImageIcon(iconEnfermedad.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+        iconLesion = new ImageIcon(iconLesion.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+
+        JLabel lblEstomago = new JLabel(" Estómago: " + mascota.getEstomago(), iconEstomago, JLabel.LEFT);
+        JLabel lblHigiene = new JLabel(" Higiene: " + mascota.getHigiene(), iconHigiene, JLabel.LEFT);
+        JLabel lblFelicidad = new JLabel(" Felicidad: " + mascota.getFelicidad(), iconFelicidad, JLabel.LEFT);
+        JLabel lblEnfermedad = new JLabel(" Enfermo: " + (mascota.tieneEnfermedad() ? "Sí" : "No"), iconEnfermedad, JLabel.LEFT);
+        JLabel lblLesion = new JLabel(" Lesión: " + (mascota.tieneLesion() ? "Sí" : "No"), iconLesion, JLabel.LEFT);
+
+        JPanel panelStats = new JPanel(new GridLayout(5, 1, 5, 5));
+        panelStats.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelStats.add(lblEstomago);
+        panelStats.add(lblHigiene);
+        panelStats.add(lblFelicidad);
+        panelStats.add(lblEnfermedad);
+        panelStats.add(lblLesion);
+
+        //imagen de mascota
+        JPanel panelImagen = new JPanel(new BorderLayout());
+        panelImagen.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        int index = mapaImagenes.getOrDefault(mascota, 1);
+        String ruta;
+
+        if (mascota instanceof Perro) {
+            ruta = "/Imagenes/Mascotas/perro" + index + ".png";
+        } else if (mascota instanceof Gato) {
+            ruta = "/Imagenes/Mascotas/gato" + index + ".png";
+        } else if (mascota instanceof Pajaro) {
+            ruta = "/Imagenes/Mascotas/pajaro" + index + ".png";
+        } else if (mascota instanceof Pez) {
+            ruta = "/Imagenes/Mascotas/pez" + index + ".png";
+        } else {
+            ruta = "/Imagenes/Mascotas/gato1.png";
+        }
+
+        ImageIcon iconMascota = new ImageIcon(getClass().getResource(ruta));
+        Image imgMascota = iconMascota.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+        JLabel lblMascota = new JLabel(new ImageIcon(imgMascota));
+        lblMascota.setHorizontalAlignment(JLabel.CENTER);
+        panelImagen.add(lblMascota, BorderLayout.CENTER);
+
+        //panel combinado
+        JPanel panelCentral = new JPanel(new BorderLayout());
+        panelCentral.add(panelStats, BorderLayout.CENTER);
+        panelCentral.add(panelImagen, BorderLayout.EAST);
+
+        dialogo.add(panelCentral, BorderLayout.CENTER);
+
+        //botones de interaccion
+        JPanel acciones = new JPanel(new GridLayout(2, 3, 5, 5));
+        acciones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         String[] opciones = {"Alimentar", "Jugar", "Limpiar", "Medicar", "Tratar", "Cerrar"};
 
@@ -355,7 +420,12 @@ public class PanelInicio implements VistaPanel {
                     case "Tratar" -> mascota.tratar();
                     case "Cerrar" -> dialogo.dispose();
                 }
-                stats.setText(mascota.estado());
+
+                lblEstomago.setText(" Estómago: " + mascota.getEstomago());
+                lblHigiene.setText(" Higiene: " + mascota.getHigiene());
+                lblFelicidad.setText(" Felicidad: " + mascota.getFelicidad());
+                lblEnfermedad.setText(" Enfermo: " + (mascota.tieneEnfermedad() ? "Sí" : "No"));
+                lblLesion.setText(" Lesión: " + (mascota.tieneLesion() ? "Sí" : "No"));
             });
             acciones.add(boton);
         }
