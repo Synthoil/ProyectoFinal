@@ -6,11 +6,6 @@ public class JuguetePez extends Juguete{
     }
 
     @Override
-    public void Comprar() {
-        cantidad++;
-    }
-
-    @Override
     public int getCantidad() {
         return cantidad;
     }

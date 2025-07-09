@@ -55,20 +55,6 @@ public class Mejoras  {
         return false;
     }
 
-    public static void comprarMejorAmbiente(){
-        mejorAmbiente = 1;
-    }
-    public static void comprarComederoAutomatico(){
-        comederoAutomatico = 1;
-    }
-
-    public static void comprarPecera(){
-        jaulaDesbloqueada = true;
-    }
-    public static void comprarJaula(){
-        acuarioDesbloqueado = true;
-    }
-
     //getter
     public static int getAmbiente(){
         return mejorAmbiente;

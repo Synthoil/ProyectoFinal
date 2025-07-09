@@ -1,18 +1,13 @@
 package TiendaDeMascotas.logica;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public abstract class Mascota {
     private List<ObservadorMascota> observadores = new ArrayList<>();
     private String nombre;
-    private String color;
     private int higiene;
     private int felicidad;
     private int estomago;
-    private int escape;
     private Boolean enfermedad;
     private Boolean extremidad_rota;
 
@@ -22,9 +17,9 @@ public abstract class Mascota {
         this.higiene = 50;
         this.estomago = 50;
         this.felicidad = 60;
-        this.escape = 0;
-        this.enfermedad = true;
-        this.extremidad_rota = false;
+        Random random = new Random();
+        this.enfermedad = random.nextDouble() < 0.30;
+        this.extremidad_rota = random.nextDouble() < 0.10;
 
 
         timer1 = new Timer();
@@ -40,7 +35,7 @@ public abstract class Mascota {
     }
 
     public void alimentar(Comida comida){
-        if (comida != null && comida.cantidad > 0){
+        if (comida != null && comida.getCantidad() > 0){
             estomago = Math.min(100, estomago + comida.nutricion());
             System.out.println(nombre + " Ha sido alimentado");
             notificarObservadores();
@@ -119,14 +114,6 @@ public abstract class Mascota {
     }
     public boolean tieneLesion(){
         return extremidad_rota;
-    }
-    public String estado(){
-        return "Nombre: " + nombre +
-                " | Estómago: " + estomago +
-                " | Higiene: " + higiene +
-                " | Felicidad: " + felicidad +
-                " | Enfermedad: " + enfermedad +
-                " | Lesión: " + extremidad_rota;
     }
 
 

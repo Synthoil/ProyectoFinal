@@ -6,10 +6,6 @@ public class ComidaBarata extends Comida {
         this.cantidad = 0;
     }
 
-    public void Comprar() {
-        cantidad++;
-    }
-
     @Override
     public int getCantidad() {
         return cantidad;

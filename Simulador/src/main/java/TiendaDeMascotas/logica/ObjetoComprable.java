@@ -11,7 +11,9 @@ abstract public class ObjetoComprable {
         this.nombre = nombre;
     }
 
-    public abstract void Comprar();
+    public void Comprar(){
+        cantidad++;
+    }
     public abstract int getCantidad();
 
     public String getNombre() {

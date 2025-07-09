@@ -6,11 +6,6 @@ public class Medicina extends ObjetoComprable{
     }
 
     @Override
-    public void Comprar() {
-        cantidad++;
-    }
-
-    @Override
     public int getCantidad() {
         return cantidad;
     }
