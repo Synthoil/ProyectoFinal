@@ -16,10 +16,14 @@ public class PanelTienda implements VistaPanel {
     private final JButton btnVolverInicio;
     private final Ventana ventana;
     private final ListaMascotas listaMascotas;
+    private Inventario inventario;
+
 
     public PanelTienda(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, Inventario inventario, ListaMascotas listaMascotas) {
         this.ventana = ventana;
         this.listaMascotas = listaMascotas;
+        this.inventario = inventario;
+
         panelTienda= new ImagePanel(iconoFondo, 1f);
         panelTienda.setBounds(0, 0, 1000, 700);
 
@@ -257,6 +261,14 @@ public class PanelTienda implements VistaPanel {
 
     }
 
+    public void comprarObjeto(ObjetoComprable objeto) {
+        if (inventario.getDinero() < objeto.getPrecio()) {
+            throw new DineroInsuficienteException("No tienes suficiente dinero.");
+        }
+        inventario.gastarDinero(objeto.getPrecio());
+        objeto.Comprar();
+        inventario.agregarObjeto(objeto);
+    }
 
 
     @Override

@@ -14,6 +14,10 @@ abstract public class ObjetoComprable {
     public void Comprar(){
         cantidad++;
     }
+    public int getPrecio() {
+        return precio;
+    }
+
     public abstract int getCantidad();
 
     public void restarCantidad() {

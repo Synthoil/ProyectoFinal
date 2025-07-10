@@ -16,9 +16,13 @@ public class ListaMascotas {
         listaMascotas.add(null);
     }
 
-    public Mascota mascotaEnCama(int cama){
-        return this.listaMascotas.get(cama);
+    public Mascota mascotaEnCama(int posicion) {
+        if (posicion < 0 || posicion >= listaMascotas.size()) {
+            return null;
+        }
+        return listaMascotas.get(posicion);
     }
+
     public boolean agregarMascotaEnCamaLibre(Mascota mascota) {
         for (int i = 0; i < listaMascotas.size(); i++) {
             if (listaMascotas.get(i) == null) {
@@ -37,5 +41,8 @@ public class ListaMascotas {
 
     public int size() {
         return this.listaMascotas.size();
+    }
+    public List<Mascota> getLista() {
+        return new ArrayList<>(listaMascotas);
     }
 }
