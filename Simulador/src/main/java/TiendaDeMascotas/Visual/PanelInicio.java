@@ -1,9 +1,6 @@
 package TiendaDeMascotas.Visual;
 
-import TiendaDeMascotas.excepciones.HabitatNoDisponibleException;
-import TiendaDeMascotas.excepciones.LimiteDeCamasAlcanzadoException;
-import TiendaDeMascotas.excepciones.MascotaNoSeleccionadaException;
-import TiendaDeMascotas.excepciones.ObjetoNoDisponibleException;
+import TiendaDeMascotas.excepciones.*;
 import TiendaDeMascotas.fabricas.*;
 import TiendaDeMascotas.logica.*;
 
@@ -117,101 +114,111 @@ public class PanelInicio implements VistaPanel {
     }
 
     private void venderMascota() {
-        List<Mascota> disponibles = new ArrayList<>();
-        List<Integer> indices = new ArrayList<>();
+        try {
+            List<Mascota> disponibles = new ArrayList<>();
+            List<Integer> indices = new ArrayList<>();
 
-        for (int i = 0; i < listaMascotas.size(); i++) {
-            Mascota m = listaMascotas.mascotaEnCama(i);
-            if (m != null) {
-                disponibles.add(m);
-                indices.add(i);
+            for (int i = 0; i < listaMascotas.size(); i++) {
+                Mascota m = listaMascotas.mascotaEnCama(i);
+                if (m != null) {
+                    disponibles.add(m);
+                    indices.add(i);
+                }
             }
-        }
-        if (pajaroEnJaula != null) {
-            disponibles.add(pajaroEnJaula);
-            indices.add(-1);
-        }
-        if (pezEnPecera != null) {
-            disponibles.add(pezEnPecera);
-            indices.add(-2);
-        }
-
-        if (disponibles.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No tienes mascotas para vender.");
-            return;
-        }
-
-        String[] opciones = new String[disponibles.size()];
-        for (int i = 0; i < disponibles.size(); i++) {
-            Mascota m = disponibles.get(i);
-            opciones[i] = m.getNombre() + " (" + m.getClass().getSimpleName() + ")";
-        }
-
-        String seleccion = (String) JOptionPane.showInputDialog(
-                null,
-                "¿Cuál mascota deseas vender?",
-                "Seleccionar Mascota",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                opciones,
-                opciones[0]
-        );
-
-        if (seleccion == null) {
-            throw new MascotaNoSeleccionadaException("No seleccionaste ninguna mascota.");
-        }
-
-
-        int seleccionIndex = -1;
-        for (int i = 0; i < opciones.length; i++) {
-            if (opciones[i].equals(seleccion)) {
-                seleccionIndex = i;
-                break;
+            if (pajaroEnJaula != null) {
+                disponibles.add(pajaroEnJaula);
+                indices.add(-1);
             }
+            if (pezEnPecera != null) {
+                disponibles.add(pezEnPecera);
+                indices.add(-2);
+            }
+
+            if (disponibles.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No tienes mascotas para vender.");
+                return;
+            }
+
+            String[] opciones = new String[disponibles.size()];
+            for (int i = 0; i < disponibles.size(); i++) {
+                Mascota m = disponibles.get(i);
+                opciones[i] = m.getNombre() + " (" + m.getClass().getSimpleName() + ")";
+            }
+
+            String seleccion = (String) JOptionPane.showInputDialog(
+                    null,
+                    "¿Cuál mascota deseas vender?",
+                    "Seleccionar Mascota",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
+
+            if (seleccion == null) {
+                throw new MascotaNoSeleccionadaException("No seleccionaste ninguna mascota.");
+            }
+
+            int seleccionIndex = -1;
+            for (int i = 0; i < opciones.length; i++) {
+                if (opciones[i].equals(seleccion)) {
+                    seleccionIndex = i;
+                    break;
+                }
+            }
+
+            if (seleccionIndex == -1) return;
+
+            Mascota vendida = disponibles.get(seleccionIndex);
+            int origen = indices.get(seleccionIndex);
+
+            // 🔥 Aquí usamos la excepción nueva
+            if (origen >= 0 && listaMascotas.mascotaEnCama(origen) != vendida) {
+                throw new MascotaYaVendidaException("Esta mascota ya fue vendida o removida.");
+            }
+
+            // Resto de la venta (igual que antes)...
+            if (origen >= 0) {
+                listaMascotas.sacarMascotaEnCama(origen);
+            } else if (origen == -1) {
+                pajaroEnJaula = null;
+            } else if (origen == -2) {
+                pezEnPecera = null;
+            }
+
+            vendida.detenerTimer();
+            mapaImagenes.remove(vendida);
+
+            int base = (vendida instanceof Pajaro) ? 80 : (vendida instanceof Pez) ? 70 : 40;
+            int bonus = 0;
+
+            if (vendida.getEstomago() > 70) bonus += 20;
+            if (vendida.getHigiene() > 70) bonus += 20;
+            if (vendida.getFelicidad() > 70) bonus += 20;
+            if (vendida.getEstomago() < 30) bonus -= 10;
+            if (vendida.getHigiene() < 30) bonus -= 10;
+            if (vendida.getFelicidad() < 30) bonus -= 10;
+            if (vendida.tieneEnfermedad()) bonus -= 15;
+            if (vendida.tieneLesion()) bonus -= 15;
+
+            int ganancia = base + bonus + (int) (Math.random() * 11);
+            ganancia = Math.max(10, ganancia);
+
+            inventario.agregarDinero(ganancia);
+            ventana.actualizarDinero(inventario.getDinero());
+
+            JOptionPane.showMessageDialog(null,
+                    vendida.getNombre() + " ha sido vendido por $" + ganancia);
+
+            generarBotonesMascotas();
+
+        } catch (MascotaYaVendidaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Mascota ya vendida", JOptionPane.WARNING_MESSAGE);
+        } catch (MascotaNoSeleccionadaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Ninguna seleccionada", JOptionPane.INFORMATION_MESSAGE);
         }
-
-        if (seleccionIndex == -1) return;
-
-        Mascota vendida = disponibles.get(seleccionIndex);
-        int origen = indices.get(seleccionIndex);
-
-        if (origen >= 0) {
-            listaMascotas.sacarMascotaEnCama(origen);
-        } else if (origen == -1) {
-            pajaroEnJaula = null;
-        } else if (origen == -2) {
-            pezEnPecera = null;
-        }
-
-        vendida.detenerTimer();
-        mapaImagenes.remove(vendida);
-
-        int base;
-        if (vendida instanceof Pajaro) base = 80;
-        else if (vendida instanceof Pez) base = 70;
-        else base = 40;
-
-        int bonus = 0;
-        if (vendida.getEstomago() > 70) bonus += 20;
-        if (vendida.getHigiene() > 70) bonus += 20;
-        if (vendida.getFelicidad() > 70) bonus += 20;
-        if (vendida.getEstomago() < 30) bonus -= 10;
-        if (vendida.getHigiene() < 30) bonus -= 10;
-        if (vendida.getFelicidad() < 30) bonus -= 10;
-        if (vendida.tieneEnfermedad()) bonus -= 15;
-        if (vendida.tieneLesion()) bonus -= 15;
-
-        int ganancia = base + bonus + (int) (Math.random() * 11);
-        ganancia = Math.max(10, ganancia);
-
-        inventario.agregarDinero(ganancia);
-        ventana.actualizarDinero(inventario.getDinero());
-
-        JOptionPane.showMessageDialog(null,
-                vendida.getNombre() + " ha sido vendido por $" + ganancia);
-
-        generarBotonesMascotas();
     }
+
 
 
     private void generarBotonesMascotas() {
@@ -498,7 +505,7 @@ public class PanelInicio implements VistaPanel {
                             Comida comida = inventario.getObjetoDisponible(Comida.class);
                             mascota.alimentar(comida);
                             ventana.repaint();
-                        } catch (ObjetoNoDisponibleException ex) {
+                        } catch (ObjetoNoDisponibleException | TipoDeObjetoInvalidoException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
                         }
                     }
@@ -507,7 +514,7 @@ public class PanelInicio implements VistaPanel {
                             Juguete juguete = inventario.getObjetoDisponible(Juguete.class);
                             mascota.jugar(juguete);
                             ventana.repaint();
-                        } catch (ObjetoNoDisponibleException ex) {
+                        } catch (ObjetoNoDisponibleException | TipoDeObjetoInvalidoException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Sin juguetes", JOptionPane.WARNING_MESSAGE);
                         }
                     }

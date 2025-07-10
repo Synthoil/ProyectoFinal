@@ -1,5 +1,7 @@
 package TiendaDeMascotas.logica;
 
+import TiendaDeMascotas.excepciones.TipoDeObjetoInvalidoException;
+
 import java.util.*;
 
 public abstract class Mascota {
@@ -35,7 +37,15 @@ public abstract class Mascota {
     }
 
     public void alimentar(Comida comida){
-        if (comida != null && comida.getCantidad() > 0){
+        if (comida == null) {
+            throw new TipoDeObjetoInvalidoException("No se puede alimentar con un objeto nulo.");
+        }
+
+        if (!(comida instanceof Comida)) {
+            throw new TipoDeObjetoInvalidoException("El objeto recibido no es del tipo Comida.");
+        }
+
+        if (comida.getCantidad() > 0){
             estomago = Math.min(100, estomago + comida.nutricion());
             System.out.println(nombre + " Ha sido alimentado");
             notificarObservadores();
@@ -43,13 +53,19 @@ public abstract class Mascota {
     }
     // Jugar llena la felicidad, baja el higiene y el estomago
     public void jugar(Juguete juguete){
-        if (juguete != null){
-            felicidad = Math.min(100, felicidad + juguete.diversion());
-            higiene = Math.max(0, higiene - juguete.suciedad());
-            estomago--;
-            System.out.println(felicidad + "esta mas feliz");
-            notificarObservadores();
+        if (juguete == null) {
+            throw new TipoDeObjetoInvalidoException("No se puede jugar con un objeto nulo.");
         }
+
+        if (!(juguete instanceof Juguete)) {
+            throw new TipoDeObjetoInvalidoException("El objeto recibido no es un juguete válido.");
+        }
+
+        felicidad = Math.min(100, felicidad + juguete.diversion());
+        higiene = Math.max(0, higiene - juguete.suciedad());
+        estomago--;
+        System.out.println(felicidad + " está más feliz");
+        notificarObservadores();
     }
     //Queda totalmente limpio
     public void limpiar(){
