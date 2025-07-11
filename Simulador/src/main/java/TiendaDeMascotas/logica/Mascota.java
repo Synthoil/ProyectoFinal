@@ -28,9 +28,9 @@ public abstract class Mascota {
         timer1.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                estomago = Math.max(0, estomago - 1 + Mejoras.getComederoAutomatico());
+                estomago = Math.max(0, estomago - 1);
                 higiene = Math.max(0, higiene - 1);
-                felicidad = Math.max(0, felicidad + Mejoras.getAmbiente());
+                felicidad = Math.max(0, felicidad);
                 notificarObservadores();
             }
         }, 0, 2000);

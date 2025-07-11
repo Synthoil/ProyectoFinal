@@ -172,12 +172,10 @@ public class PanelInicio implements VistaPanel {
             Mascota vendida = disponibles.get(seleccionIndex);
             int origen = indices.get(seleccionIndex);
 
-            // 🔥 Aquí usamos la excepción nueva
             if (origen >= 0 && listaMascotas.mascotaEnCama(origen) != vendida) {
                 throw new MascotaYaVendidaException("Esta mascota ya fue vendida o removida.");
             }
 
-            // Resto de la venta (igual que antes)...
             if (origen >= 0) {
                 listaMascotas.sacarMascotaEnCama(origen);
             } else if (origen == -1) {

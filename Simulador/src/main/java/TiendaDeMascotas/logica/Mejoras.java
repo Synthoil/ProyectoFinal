@@ -56,12 +56,6 @@ public class Mejoras  {
     }
 
     //getter
-    public static int getAmbiente(){
-        return mejorAmbiente;
-    }
-    public static int getComederoAutomatico(){
-        return comederoAutomatico;
-    }
     public static int getCantidadCamas() {
         return cantidadCamas;
     }
