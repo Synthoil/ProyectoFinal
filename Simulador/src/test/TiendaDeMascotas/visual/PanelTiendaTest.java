@@ -1,4 +1,4 @@
-package TiendaDeMascotas.logica;
+package TiendaDeMascotas.visual;
 
 import TiendaDeMascotas.Visual.Navegador;
 import TiendaDeMascotas.Visual.PanelTienda;

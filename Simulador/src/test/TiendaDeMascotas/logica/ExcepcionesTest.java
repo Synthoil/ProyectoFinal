@@ -12,7 +12,7 @@ public class ExcepcionesTest {
     public void testDineroInsuficienteException() {
         Inventario inventario = new Inventario();
         assertThrows(DineroInsuficienteException.class, () -> {
-            inventario.gastarDinero(2000); // más de 1000
+            inventario.gastarDinero(2000);
         });
     }
 

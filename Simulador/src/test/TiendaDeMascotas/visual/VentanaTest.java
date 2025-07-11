@@ -1,4 +1,4 @@
-package TiendaDeMascotas.logica;
+package TiendaDeMascotas.visual;
 
 import TiendaDeMascotas.Visual.Ventana;
 import TiendaDeMascotas.Visual.VistaActual;
@@ -27,7 +27,6 @@ public class VentanaTest {
     public void testEtiquetaDineroSeActualiza() {
         inventario.agregarDinero(100);
         ventana.actualizarDinero(inventario.getDinero());
-        // Asegurarse que no lanza excepción
         assertDoesNotThrow(() -> ventana.actualizarDinero(500));
     }
 
