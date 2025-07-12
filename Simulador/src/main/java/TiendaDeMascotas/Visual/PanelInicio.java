@@ -62,7 +62,7 @@ public class PanelInicio implements VistaPanel {
     /**
      * Recibe la imagen para el panel y la aplica, crea botones para navegar entre los menus del juego,
      * un boton para adoptar nuevas mascotas (Actualmente se adopta un animal random) y
-     * un boton para vender mascotas (Llama a venderMascota() más adelante).
+     * un boton para vender mascotas (Llama al metodo venderMascota(), escrito más adelante).
      *
      * @param ventana       Ventana principal del juego, actualiza sus elementos visuales.
      * @param navegador     Interfaz que permite el cambio entre ventanas del juego (Tienda e inventario).
@@ -269,6 +269,7 @@ public class PanelInicio implements VistaPanel {
     /**
      * Actualiza los botones y las imagenes, su posicion y funcion.
      * Si existe la pecera o la jaula, los agrega al panel, lo mismo con su animal asociado
+     * También agrega las camas dependiendo de la cantidad mascotas.
      */
     private void generarBotonesMascotas() {
         Component[] comps = panelInicio.getComponents();
@@ -609,11 +610,17 @@ public class PanelInicio implements VistaPanel {
         return panelInicio;
     }
 
+    /**
+     * Segmento para correr codigo al entrar al panel.
+     */
     @Override
     public void alEntrar() {
         //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al entrar al panel
     }
 
+    /**
+     * Segmento para correr codigo al salir del panel.
+     */
     @Override
     public void alSalir() {
         //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al salir del panel

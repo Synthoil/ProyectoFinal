@@ -99,6 +99,9 @@ public class PanelInventario implements VistaPanel {
         panelInventario.repaint();
     }
 
+    /**
+     * Segmento para correr codigo al salir del panel.
+     */
     @Override
     public void alSalir() {}
 }

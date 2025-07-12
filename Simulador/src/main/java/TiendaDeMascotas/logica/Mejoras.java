@@ -1,7 +1,7 @@
 package TiendaDeMascotas.logica;
 
 /**
- * Clase de mejoras utilizadas en varios segmentos
+ * Clase de mejoras utilizadas en varios segmentos, tiene datos estáticos por lo global que es su uso.
  */
 public class Mejoras  {
     static private int cantidadCamas = 0;

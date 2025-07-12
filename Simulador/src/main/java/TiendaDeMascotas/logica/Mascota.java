@@ -7,7 +7,6 @@ import java.util.*;
 /**
  * Clase general para cada una de las mascotas, tiene sus estadisticas permitiendo su consulta,
  * actualizacion con el paso del tiempo y su modificacion con el uso de objetos (Comida, juguetes...)
- *
  * Al crearse, cada mascota genera un temporizador que cada cierto intervalo reduce sus estadisticas.
  */
 public abstract class Mascota {
@@ -25,11 +24,14 @@ public abstract class Mascota {
     private Boolean enfermedad;
     private Boolean extremidad_rota;
 
+    /**
+     * Temporizador para reducir la estadisticas con el tiempo.
+     */
     private Timer timer1;
 
     /**
-     * Crea la mascota con estadisticas bases y una posibilidad de estar enferma o tener una extremidad rota,
-     * tambien inicializa el temporizador propio de cada instancia que reduce las estadisticas.
+     * Crea la mascota con estadísticas base y una posibilidad de estar enferma o tener una extremidad rota,
+     * también inicializa el temporizador propio de cada instancia que reduce las estadísticas.
      */
     public Mascota() {
         this.higiene = 50;
@@ -115,7 +117,7 @@ public abstract class Mascota {
     }
 
     /**
-     * Trata una extremidad rota del animal
+     * Metodo que trata una extremidad rota del animal
      */
     public void tratar(){
         if(extremidad_rota){
@@ -133,6 +135,7 @@ public abstract class Mascota {
             timer1.cancel();
         }
     }
+
     public void agregarObservador(ObservadorMascota o) {
         observadores.add(o);
     }

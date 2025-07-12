@@ -39,9 +39,8 @@ public class PanelAdministrar implements VistaPanel {
     }
 
     /**
-     * Devuelve el panel principal de esta vista.
-     *
-     * @return El JPanel que representa la interfaz del panel de administración.
+     * Retorna el panel actual.
+     * @return Panel de Administracion/juego.
      */
     @Override
     public JPanel obtenerPanel() {

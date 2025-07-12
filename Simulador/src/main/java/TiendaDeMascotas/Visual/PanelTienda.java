@@ -294,25 +294,36 @@ public class PanelTienda implements VistaPanel {
 
     }
 
-    public void comprarObjeto(ObjetoComprable objeto) {
+    /*public void comprarObjeto(ObjetoComprable objeto) {
         if (inventario.getDinero() < objeto.getPrecio()) {
             throw new DineroInsuficienteException("No tienes suficiente dinero.");
         }
         inventario.gastarDinero(objeto.getPrecio());
         objeto.Comprar();
         inventario.agregarObjeto(objeto);
-    }
+    }*/
 
 
+    /**
+     * Retorna el panel actual.
+     * @return Panel de Tienda.
+     */
     @Override
     public JPanel obtenerPanel() {
         return panelTienda;
     }
+
+    /**
+     * Segmento para correr codigo al entrar al panel.
+     */
     @Override
     public void alEntrar() {
         //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al entrar al panel
     }
 
+    /**
+     * Segmento para correr codigo al salir del panel.
+     */
     @Override
     public void alSalir() {
         //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al salir del panel

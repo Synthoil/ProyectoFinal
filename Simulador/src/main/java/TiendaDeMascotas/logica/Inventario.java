@@ -55,6 +55,10 @@ public class Inventario {
     }
 
 
+    /**
+     * Compra un objeto, aumentando su cantidad tras comprobar cuál objeto es.
+     * @param nuevo Objeto a comprar
+     */
     public void agregarObjeto(ObjetoComprable nuevo) {
         for(ObjetoComprable obj : objetos){
             if(obj.getClass().equals(nuevo.getClass()) && obj.getNombre().equalsIgnoreCase(nuevo.getNombre())) {
@@ -75,6 +79,11 @@ public class Inventario {
         return objetos;
     }
 
+    /**
+     * Retorna un item si se tiene uno en el inventario.
+     * @param tipo Tipo de objeto que se busca.
+     * @return Objeto que se quiere retornar.
+     */
     public <T extends ObjetoComprable> T getObjetoDisponible(Class<T> tipo) {
         for (ObjetoComprable obj : objetos) {
             if (tipo.isInstance(obj) && obj.getCantidad() > 0) {
