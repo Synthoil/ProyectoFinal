@@ -7,11 +7,34 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Panel que contiene el inventario del jugador, mostrando la cantidad actual de cada objeto que tiene el jugador,
+ * también permite volver a la ventana del juego principal.
+ */
 public class PanelInventario implements VistaPanel {
+
+    /**
+     * Imagen usada de fondo para el panel.
+     */
     private final ImagePanel panelInventario;
+
+    /**
+     * Boton para volver al juego principal.
+     */
     private final JButton btnVolverInicio;
+
+    /**
+     * Inventario del jugador.
+     */
     private final Inventario inventario;
 
+    /**
+     * Crea el panel con la información del inventario y agrega la funcion al boton de regreso.
+     *
+     * @param navegador Usado para permitir que el boton de regreso lleve al inicio.
+     * @param iconoFondo Entrega el fondo para el panel.
+     * @param inventario Inventario del jugador
+     */
     public PanelInventario(Navegador navegador, ImageIcon iconoFondo, Inventario inventario) {
         this.inventario = inventario;
 
@@ -41,11 +64,18 @@ public class PanelInventario implements VistaPanel {
         panelInventario.add(area);
     }
 
+    /**
+     * Retorna el panel actual.
+     * @return Panel de inventario.
+     */
     @Override
     public JPanel obtenerPanel() {
         return panelInventario;
     }
 
+    /**
+     * Limpia el panel del inventario y agrega los valores más nuevos para la cantidad de los objetos.
+     */
     @Override
     public void alEntrar() {
         panelInventario.removeAll();

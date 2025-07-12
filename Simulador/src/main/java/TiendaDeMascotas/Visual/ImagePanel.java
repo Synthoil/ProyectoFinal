@@ -16,11 +16,16 @@ public class ImagePanel extends JPanel {
      */
     public ImagePanel(ImageIcon icono, float alpha) {
         this.imagen = icono != null ? icono.getImage() : null;
-        this.alpha  = Math.max(0f, Math.min(1f, alpha));
+        this.alpha = Math.max(0f, Math.min(1f, alpha));
         setLayout(null);
         setOpaque(false);
     }
 
+    /**
+     * Pinta el componente incluyendo la imagen de fondo escalada con el nivel de transparencia especificado.
+     *
+     * @param g El contexto gráfico utilizado para dibujar el componente.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

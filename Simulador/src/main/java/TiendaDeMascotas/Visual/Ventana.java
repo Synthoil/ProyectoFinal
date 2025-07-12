@@ -10,18 +10,38 @@ import java.util.Map;
 
 /**
  * JFrame principal que usa un JLayeredPane para superponer los paneles.
+ * Ventana principal utilizada para mostrar el resto, consigue las imagenes para cada ventana y las inicializa
  */
 public class Ventana extends JFrame implements Navegador {
+    /**
+     * Usado para modificar la capa donde se encuentra cada elemento.
+     */
     private final JLayeredPane panelCapas;
     private final Map<VistaActual, VistaPanel> mapaVistas = new EnumMap<>(VistaActual.class);
 
+    /**
+     * Fondos de cada panel.
+     */
     private final ImageIcon iconoFondoInicio;
     private final ImageIcon iconoFondoTienda;
     private final ImageIcon iconoFondoInventario;
 
+    /**
+     * Usado para el cambio entre los paneles.
+     */
     private VistaActual vistaActual;
+
+    /**
+     * Usado para acceder al dinero actual y actualizar el dinero.
+     */
     private JLabel etiquetaDinero;
 
+    /**
+     * Consigue las imagenes a usar, dibuja la ventana principal con el dinero e inicializa los paneles a usar.
+     *
+     * @param inventario
+     * @param listaMascotas
+     */
     public Ventana(Inventario inventario, ListaMascotas listaMascotas) {
         super("Tienda de Mascotas");
 
@@ -69,10 +89,18 @@ public class Ventana extends JFrame implements Navegador {
         navegarA(VistaActual.INICIO);
     }
 
+    /**
+     * Actualiza el valor del dinero mostrado en el panel.
+     * @param nuevoValor Valor más actualizado del dinero.
+     */
     public void actualizarDinero(int nuevoValor){
         etiquetaDinero.setText("Dinero: $" + nuevoValor);
     }
 
+    /**
+     * Cambia la vista del panel actual al panel especificado.
+     * @param nuevaVista Panel al que se quiere cambiar
+     */
     @Override
     public void navegarA(VistaActual nuevaVista) {
         if (vistaActual != null) {

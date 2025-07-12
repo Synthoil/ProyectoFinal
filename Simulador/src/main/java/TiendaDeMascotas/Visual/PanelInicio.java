@@ -12,21 +12,64 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Panel de inicio con fondo opaco (alpha = 1).
+ * Panel de inicio con fondo opaco (alpha = 1), permite interactuar con el juego: adoptar mascotas y moverse entre ventanas
  */
 public class PanelInicio implements VistaPanel {
+
+    /**
+     * Panel con la imagen de fondo.
+     */
     private final ImagePanel panelInicio;
+
+    /**
+     * Botones para moverse a otros paneles.
+     */
     private final JButton btnIrTienda;
     private final JButton btnVerInventario;
+
+    /**
+     * Boton para adoptar una mascota
+     */
     private final JButton btnAdoptar;
+
+    /**
+     * Inicializacion de una lista para las mascotas.
+     */
     private final ListaMascotas listaMascotas;
+
+    /**
+     * Inicializacion del inventario para el jugador.
+     */
     private final Inventario inventario;
+
+    /**
+     * Referencia a la ventana principal del juego.
+     */
     private final Ventana ventana;
+
+    /**
+     * Referencia para la ventana principal.
+     */
     private final Map<Mascota, Integer> mapaImagenes = new HashMap<>();
+
+    /**
+     * pajaroEnJaula y pezEnPecera tienen inicial valor null para tener una referencia a su falta.
+     */
     private Mascota pajaroEnJaula = null;
     private Mascota pezEnPecera = null;
 
 
+    /**
+     * Recibe la imagen para el panel y la aplica, crea botones para navegar entre los menus del juego,
+     * un boton para adoptar nuevas mascotas (Actualmente se adopta un animal random) y
+     * un boton para vender mascotas (Llama a venderMascota() más adelante).
+     *
+     * @param ventana       Ventana principal del juego, actualiza sus elementos visuales.
+     * @param navegador     Interfaz que permite el cambio entre ventanas del juego (Tienda e inventario).
+     * @param iconoFondo    Recibe una imagen de fondo para el panel.
+     * @param listaMascotas Recibe una lista de mascotas que manipulará con botones (Adoptar/vender).
+     * @param inventario    Recibe el inventario del jugador, en esta clase es usado para mostrar el dinero actual y adoptar con este valor.
+     */
     public PanelInicio(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, ListaMascotas listaMascotas, Inventario inventario) {
         this.listaMascotas = listaMascotas;
         this.inventario = inventario;
@@ -66,7 +109,7 @@ public class PanelInicio implements VistaPanel {
             }
 
             Mascota nuevaMascota = factory.crearMascota();
-            int index = 1 + (int)(Math.random() * 6);
+            int index = 1 + (int) (Math.random() * 6);
             mapaImagenes.put(nuevaMascota, index);
 
             if (nuevaMascota instanceof Pajaro && Mejoras.isJaulaDesbloqueada() && pajaroEnJaula == null) {
@@ -113,6 +156,11 @@ public class PanelInicio implements VistaPanel {
         generarBotonesMascotas();
     }
 
+    /**
+     * Cuando el boton correspondiente llama a este metodo, se crea dialog donde se puede seleccionar la mascota a vender.
+     * También calcula la ganancia de vender la mascota, valor aumentado o disminuido dependiendo de las estadisticas de la mascota seleccionada.
+     * Termina agregando la ganancia al dinero en el inventario.
+     */
     private void venderMascota() {
         try {
             List<Mascota> disponibles = new ArrayList<>();
@@ -218,7 +266,10 @@ public class PanelInicio implements VistaPanel {
     }
 
 
-
+    /**
+     * Actualiza los botones y las imagenes, su posicion y funcion.
+     * Si existe la pecera o la jaula, los agrega al panel, lo mismo con su animal asociado
+     */
     private void generarBotonesMascotas() {
         Component[] comps = panelInicio.getComponents();
         for (Component comp : comps) {
@@ -377,6 +428,14 @@ public class PanelInicio implements VistaPanel {
         panelInicio.repaint();
     }
 
+    /**
+     * Ventana de la mascota para consultar sus estadisticas e interactuar (Alimentar, jugar...).
+     * En orden, inicializa el diálogo y las imagenes a usar, *******,
+     * finalmente agrega las funciones a cada uno de los botones
+     *
+     * @param mascota Mascota con la que interactuar.
+     * @param cama    Cama asociada a la mascota.
+     */
     private void mostrarVentanaMascota(Mascota mascota, int cama) {
         JDialog dialogo = new JDialog();
         dialogo.setTitle("🐾 " + mascota.getNombre());
@@ -527,9 +586,9 @@ public class PanelInicio implements VistaPanel {
                         }
                     }
                     case "Tratar" -> mascota.tratar();
-                    case "Cerrar" ->{
-                            mascota.quitarObservador(observador);
-                            dialogo.dispose();
+                    case "Cerrar" -> {
+                        mascota.quitarObservador(observador);
+                        dialogo.dispose();
                     }
                 }
             });
@@ -540,6 +599,11 @@ public class PanelInicio implements VistaPanel {
         dialogo.setVisible(true);
     }
 
+    /**
+     * Retorna el panel actual.
+     *
+     * @return Panel actual.
+     */
     @Override
     public JPanel obtenerPanel() {
         return panelInicio;

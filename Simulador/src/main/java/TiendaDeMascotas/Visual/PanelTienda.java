@@ -8,17 +8,50 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Panel para la tienda, contiene los objetos que se pueden comprar comparando con dinero actual para ver si
+ * se puede aumentar la cantidad en posesion.
  * Panel de tienda con fondo semitransparente (alpha = 0.8),
  * para que se vea lo que hay debajo en el panel de inicio.
  */
 public class PanelTienda implements VistaPanel {
+
+    /**
+     * Imagen para el panel de la tienda.
+     */
     private final ImagePanel panelTienda;
+
+    /**
+     * Boton para volver al juego principal
+     */
     private final JButton btnVolverInicio;
+
+    /**
+     * Ventana actual, utilizado para actualizar los datos
+     */
     private final Ventana ventana;
+
+    /**
+     * Lista de mascotas de tamaño mejorable.
+     */
     private final ListaMascotas listaMascotas;
+
+    /**
+     * Inventario del jugador, contiene objetos y dinero actual.
+     */
     private Inventario inventario;
 
-
+    /**
+     * Inicializa el panel con las secciones de: Comida, Juguetes, Medicina y mejoras, cada uno de los botones
+     * se asegura de que el jugador sea capaz de comprar el elemento, realizando la transaccion en el inventario
+     * cuando si se puede, cada boton luego actualiza la ventana para que muestre la nueva cantidad de dinero.
+     * Ya que tiene acceso a las mejoras, edita la clase de Mejoras, lo que afecta la cantidad de mascotas que se pueden tener.
+     *
+     * @param ventana Ventana actual, usado para actualizar el dinero.
+     * @param navegador Usado para permitir a los botones regresar al inicio.
+     * @param iconoFondo Recibe el icono del fondo.
+     * @param inventario Accede a los objetos que tiene el jugador junto con su dinero actual.
+     * @param listaMascotas Lista con las mascotas, usado en la mejora de cantidad de camas.
+     */
     public PanelTienda(Ventana ventana, Navegador navegador, ImageIcon iconoFondo, Inventario inventario, ListaMascotas listaMascotas) {
         this.ventana = ventana;
         this.listaMascotas = listaMascotas;
