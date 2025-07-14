@@ -615,7 +615,6 @@ public class PanelInicio implements VistaPanel {
      */
     @Override
     public void alEntrar() {
-        //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al entrar al panel
     }
 
     /**
@@ -623,6 +622,5 @@ public class PanelInicio implements VistaPanel {
      */
     @Override
     public void alSalir() {
-        //para el futuro cuando agreguemos otras cosas, habilitar o deshabilitar al salir del panel
     }
 }
