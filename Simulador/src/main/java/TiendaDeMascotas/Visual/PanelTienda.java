@@ -294,14 +294,14 @@ public class PanelTienda implements VistaPanel {
 
     }
 
-    /*public void comprarObjeto(ObjetoComprable objeto) {
+    public void comprarObjeto(ObjetoComprable objeto) {
         if (inventario.getDinero() < objeto.getPrecio()) {
             throw new DineroInsuficienteException("No tienes suficiente dinero.");
         }
         inventario.gastarDinero(objeto.getPrecio());
         objeto.Comprar();
         inventario.agregarObjeto(objeto);
-    }*/
+    }
 
 
     /**

@@ -46,15 +46,18 @@ public class ObjetoComprableTest {
     }
 
     @Test
-    public void testRestarCantidadDisminuyeSiEsMayorQueCero() {
+    public void testNutricionDisminuyeCantidad() {
         comida.Comprar();
-        comida.restarCantidad();
+        comida.nutricion();
         assertEquals(0, comida.getCantidad());
     }
 
     @Test
-    public void testRestarCantidadNoEsNegativa() {
-        comida.restarCantidad();
+    public void testNutricionNoBajaCantidadNegativa() {
+        assertEquals(0, comida.getCantidad());
+        comida.nutricion();
         assertEquals(0, comida.getCantidad());
     }
+
+
 }

@@ -31,7 +31,11 @@ public class ComidaPremium extends Comida{
      */
     @Override
     public int nutricion() {
-        cantidad--;
-        return 100;
+        if (cantidad > 0) {
+            cantidad--;
+            return 100;
+        } else {
+            return 0;
+        }
     }
 }
